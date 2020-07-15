@@ -73,7 +73,7 @@ Implementations from third parties:
 			<br />
 			<a href="https://github.com/ridicoulous/Bitmex.Net">Bitmex</a>
 		</td>
-		td>
+		<td>
 			<a href="https://github.com/intelligences/HitBTC.Net"><img src="https://github.com/intelligences/HitBTC.Net/blob/master/src/HitBTC.Net/Icon/icon.png"></a>
 			<br />
 			<a href="https://github.com/intelligences/HitBTC.Net">HitBTC.Net</a>

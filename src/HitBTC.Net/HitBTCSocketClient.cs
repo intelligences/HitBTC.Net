@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace HitBTC.Net
 {
-    public class HitBTCTradingSocketClient : SocketClient, IHitBTCSocketClient
+    public class HitBTCSocketClient : SocketClient, IHitBTCSocketClient
     {
         public event Action OnOpened;
         public event Action OnClosed;
@@ -30,7 +30,7 @@ namespace HitBTC.Net
         /// <summary>
         /// Creates a new socket client using the default options
         /// </summary>
-        public HitBTCTradingSocketClient() : this(DefaultOptions)
+        public HitBTCSocketClient() : this(DefaultOptions)
         {
         }
 
@@ -38,7 +38,7 @@ namespace HitBTC.Net
         /// Creates a new socket client using the provided options
         /// </summary>
         /// <param name="options">Options to use for this client</param>
-        public HitBTCTradingSocketClient(HitBTCSocketClientOptions options) : base(options, options.ApiCredentials == null ? null : new HitBTCAuthenticationProvider(options.ApiCredentials))
+        public HitBTCSocketClient(HitBTCSocketClientOptions options) : base(options, options.ApiCredentials == null ? null : new HitBTCAuthenticationProvider(options.ApiCredentials))
         {
             SocketCombineTarget = 10;
         }

@@ -1,4 +1,4 @@
-# ![Icon](https://github.com/intelligences/HitBTC.Net/blob/master/src/HitBTC.Net/Icon/icon.png?raw=true) Bittrex.Net 
+# ![Icon](https://github.com/intelligences/HitBTC.Net/blob/master/src/HitBTC.Net/Icon/icon.png?raw=true) HitBTC.Net
 
 ![Build status](https://travis-ci.org/intelligences/HitBTC.Net.svg?branch=master)
 
@@ -76,7 +76,7 @@ Implementations from third parties:
 		<td>
 			<a href="https://github.com/intelligences/HitBTC.Net"><img src="https://github.com/intelligences/HitBTC.Net/blob/master/src/HitBTC.Net/Icon/icon.png"></a>
 			<br />
-			<a href="https://github.com/intelligences/HitBTC.Net">HitBTC.Net</a>
+			<a href="https://github.com/intelligences/HitBTC.Net">HitBTC</a>
 		</td>
 	</tr>
 	

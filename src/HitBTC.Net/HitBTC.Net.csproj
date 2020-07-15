@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Sergey Rashin</Authors>
+    <Description>HitBTC.Net is a .Net wrapper for the HitBTC API.</Description>
+    <PackageTags>HitBTC HitBTC.Net CryptoCurrency Exchange API wrapper</PackageTags>
+    <RepositoryUrl>https://github.com/intelligences/HitBTC.Net</RepositoryUrl>
+    <Copyright>Intelligences</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageId>HitBTC_Net</PackageId>
+    <PackageIcon>icon.png</PackageIcon>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="HitBTCClient.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CryptoExchange.Net" Version="3.0.11" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Icon\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

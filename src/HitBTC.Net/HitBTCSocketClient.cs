@@ -297,9 +297,6 @@ namespace HitBTC.Net
                         action(report);
                         break;
                 }
-
-                Debug.WriteLine(response);
-
             });
 
             return await Subscribe<HitBTCSocketSubscriptionResponse<JToken>>(request, null, true, internalHandler).ConfigureAwait(false);
@@ -392,7 +389,35 @@ namespace HitBTC.Net
 
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
-            callResult = new CallResult<T>(data.ToObject<T>(), null);
+            callResult = null;
+            //  callResult = new CallResult<T>(default, null);
+
+            var idField = data["id"];
+            string method = (string)data["method"];
+
+            if (method == "updateOrderbook" || method == "snapshotOrderbook")
+            {
+                return false;
+            }
+
+            var typed = request as HitBTCSocketRequest;
+
+            if (idField == null || idField.Type == JTokenType.Null)
+                return false;
+
+            if (typed.Id != (int)idField)
+                return false;
+
+            var err = data["error"];
+            
+            if (err?.Type != null)
+            {
+                callResult = new CallResult<T>(default, new ServerError((int)data["error"]["code"], (string)data["error"]["message"]));
+                return true;
+            }
+
+
+             callResult = new CallResult<T>(data.ToObject<T>(), null);
 
             return callResult;
         }
@@ -451,12 +476,20 @@ namespace HitBTC.Net
                 }
                 if (request is SubscribeOrderBookRequest)
                 {
-                    string symbol = (string)message["params"]["symbol"];
+                    if (method == "updateOrderbook" || method == "snapshotOrderbook")
+                    {
+                        string symbol = (string)message["params"]["symbol"];
 
-                    return (request as SubscribeOrderBookRequest).GetSymbol() == symbol;
+                        return (request as SubscribeOrderBookRequest).GetSymbol() == symbol;
+                    }
                 }
                 if (request is SubscribeCandlesRequest)
                 {
+                    if (method != "snapshotCandles" && method != "updateCandles")
+                    {
+                        return false;
+                    }
+
                     string symbol = (string)message["params"]["symbol"];
                     string period = (string)message["params"]["period"];
 
@@ -466,6 +499,11 @@ namespace HitBTC.Net
                 }
                 if (request is SubscribeTradesRequest)
                 {
+                    if (method != "snapshotTrades" && method != "updateTrades")
+                    {
+                        return false;
+                    }
+
                     string symbol = (string)message["params"]["symbol"];
 
                     return (request as SubscribeTradesRequest).GetSymbol() == symbol;

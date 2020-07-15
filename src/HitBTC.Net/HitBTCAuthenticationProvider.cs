@@ -9,7 +9,7 @@ using System.Text;
 
 namespace HitBTC.Net
 {
-    internal class HitBTCAuthenticationProvider : AuthenticationProvider
+    public class HitBTCAuthenticationProvider : AuthenticationProvider
     {
         private static long nonce => DateTime.UtcNow.Ticks;
         private readonly HMACSHA256 encryptor;

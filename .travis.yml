@@ -3,4 +3,4 @@ mono: none
 solution: HitBTC.Net.sln
 dotnet: 3.0
 script:
- - dotnet build src/HitBTC.Net/HitBTC.Net.csproj --framework "netstandard2.1"
+ - dotnet build src/HitBTC.Net/HitBTC.Net.csproj --framework "netstandard2.0"

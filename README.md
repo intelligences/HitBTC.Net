@@ -103,5 +103,5 @@ After doing either of above steps you should now be ready to actually start usin
 To get started we have to add the HitBTC.Net namespace:  `using HitBTC.Net;`.
 
 ## Release notes
-* Version 1.0.0 - 6 nov 2017
-	* Release version 1.0.0
+* Version 1.0.1.4 - 17 july 2020
+	* Release version 1.0.1.4

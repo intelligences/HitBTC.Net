@@ -10,19 +10,12 @@ using HitBTC.Net.Sockets;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HitBTC.Net
 {
     public class HitBTCSocketClient : SocketClient, IHitBTCSocketClient
     {
-        public event Action OnOpened;
-        public event Action OnClosed;
-        public event Action OnConnectionLost;
-        public event Action<TimeSpan> OnConnectionRestored;
-
         private static HitBTCSocketClientOptions defaultOptions = new HitBTCSocketClientOptions();
         private static HitBTCSocketClientOptions DefaultOptions => defaultOptions.Copy<HitBTCSocketClientOptions>();
 
@@ -416,8 +409,7 @@ namespace HitBTC.Net
                 return true;
             }
 
-
-             callResult = new CallResult<T>(data.ToObject<T>(), null);
+            callResult = new CallResult<T>(data.ToObject<T>(), null);
 
             return callResult;
         }
@@ -460,6 +452,22 @@ namespace HitBTC.Net
         protected override bool MessageMatchesHandler(JToken message, object request)
         {
             string method = (string)message["method"];
+
+            var err = message["error"];
+
+            if (err?.Type != null)
+            {
+                var idField = message["id"];
+                var typed = request as HitBTCSocketRequest;
+
+                if (idField == null || idField.Type == JTokenType.Null)
+                    return false;
+
+                if (typed.Id != (int)idField)
+                    return false;
+
+                return true;
+            }
 
             if (method != null)
             {
@@ -523,7 +531,6 @@ namespace HitBTC.Net
             throw new System.NotImplementedException();
         }
 
-
         protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
         {
             if (authProvider == null)
@@ -566,50 +573,6 @@ namespace HitBTC.Net
             });
 
             return result;
-        }
-
-
-        protected override SocketConnection GetWebsocket(string address, bool authenticated)
-        {
-            var socketResult = sockets.Where(s => s.Value.Socket.Url == address && (s.Value.Authenticated == authenticated || !authenticated) && s.Value.Connected).OrderBy(s => s.Value.HandlerCount).FirstOrDefault();
-            var result = socketResult.Equals(default(KeyValuePair<int, SocketConnection>)) ? null : socketResult.Value;
-
-            if (result != null)
-            {
-                if (result.HandlerCount < SocketCombineTarget || (sockets.Count >= MaxSocketConnections && sockets.All(s => s.Value.HandlerCount >= SocketCombineTarget)))
-                {
-                    // Use existing socket if it has less than target connections OR it has the least connections and we can't make new
-                    return result;
-                }
-            }
-
-            var socket = CreateSocket(address);
-            var socketWrapper = new SocketConnection(this, socket);
-            foreach (var kvp in genericHandlers)
-            {
-                var handler = SocketSubscription.CreateForIdentifier(kvp.Key, false, kvp.Value);
-                socketWrapper.AddHandler(handler);
-            }
-
-            socket.OnOpen += () =>
-            {
-                this.OnOpened?.Invoke();
-            };
-
-            socket.OnClose += () =>
-            {
-                this.OnClosed?.Invoke();
-            };
-
-            socketWrapper.ConnectionLost += () => {
-                this.OnConnectionLost?.Invoke();
-            };
-
-            socketWrapper.ConnectionRestored += (TimeSpan ts) => {
-                this.OnConnectionRestored?.Invoke(ts);
-            };
-
-            return socketWrapper;
         }
     }
 }

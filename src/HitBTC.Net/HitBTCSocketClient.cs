@@ -199,16 +199,16 @@ namespace HitBTC.Net
         }
 
         /// <summary>
-        /// Cancel order
+        /// Cancel margin order
         /// </summary>
         /// <returns>Order</returns>
-        public CallResult<HitBTCOrder> CancelOrder(string clientOrderId) => CancelOrderAsync(clientOrderId).Result;
+        public CallResult<HitBTCOrder> CancelMarginOrder(string clientOrderId) => CancelMarginOrderAsync(clientOrderId).Result;
 
         /// <summary>
-        /// Cancel order
+        /// Cancel margin order
         /// </summary>
         /// <returns>Order</returns>
-        public async Task<CallResult<HitBTCOrder>> CancelOrderAsync(string clientOrderId)
+        public async Task<CallResult<HitBTCOrder>> CancelMarginOrderAsync(string clientOrderId)
         {
             var request = new CancelOrderRequest(NextId(), clientOrderId);
             var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
@@ -274,7 +274,7 @@ namespace HitBTC.Net
                 var method = response.Method;
                 JToken data = response.Data;
 
-                switch(method)
+                switch (method)
                 {
                     case "activeOrders":
                         var orders = data.ToObject<IEnumerable<HitBTCOrder>>();
@@ -371,6 +371,242 @@ namespace HitBTC.Net
         }
 
         /// <summary>
+        /// Subscribe to margin reports
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns>Subscription</returns>
+        public CallResult<UpdateSubscription> SubscribeMarginReports(Action<HitBTCOrder> action) => SubscribeMarginReportsAsync(action).Result;
+
+        /// <summary>
+        /// Subscribe to margin reports async
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns>Subscription</returns>
+        public async Task<CallResult<UpdateSubscription>> SubscribeMarginReportsAsync(Action<HitBTCOrder> action)
+        {
+            var request = new SubscribeMarginReportsRequest(NextId());
+
+            var internalHandler = new Action<HitBTCSocketSubscriptionResponse<JToken>>(response =>
+            {
+                var error = response.Error;
+                var method = response.Method;
+                JToken data = response.Data;
+
+                switch (method)
+                {
+                    //case "activeOrders":
+                    //    var orders = data.ToObject<IEnumerable<HitBTCOrder>>();
+
+                    //    foreach (var order in orders)
+                    //    {
+                    //        action(order);
+                    //    }
+                    //    break;
+                    //case "report":
+                    //    var report = data.ToObject<HitBTCReport>();
+
+                    //    action(report);
+                    //    break;
+                }
+            });
+
+            return await Subscribe<HitBTCSocketSubscriptionResponse<JToken>>(request, null, true, internalHandler).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Get margin accounts
+        /// </summary>
+        /// <returns>margin accounts</returns>
+        public CallResult<IEnumerable<HitBTCMarginAccount>> GetMarginAccounts() => GetMarginAccountsAsync().Result;
+
+        /// <summary>
+        /// Get margin accounts async
+        /// </summary>
+        /// <returns>margin accounts</returns>
+        public async Task<CallResult<IEnumerable<HitBTCMarginAccount>>> GetMarginAccountsAsync()
+        {
+            var request = new GetMarginAccountsRequest(NextId());
+            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCMarginAccount>>>(request, true).ConfigureAwait(false);
+
+            return new CallResult<IEnumerable<HitBTCMarginAccount>>(result.Data?.Result, result.Error);
+        }
+
+        /// <summary>
+        /// Close margin position
+        /// </summary>
+        /// <returns>margin accounts</returns>
+        public CallResult<IEnumerable<HitBTCMarginAccount>> CloseMarginPosition(string symbol) => CloseMarginPositionAsync(symbol).Result;
+
+        /// <summary>
+        /// Close margin position async
+        /// </summary>
+        /// <returns>margin accounts</returns>
+        public async Task<CallResult<IEnumerable<HitBTCMarginAccount>>> CloseMarginPositionAsync(string symbol)
+        {
+            var request = new CloseMarginPositionRequest(NextId(), symbol);
+            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCMarginAccount>>>(request, true).ConfigureAwait(false);
+
+            return new CallResult<IEnumerable<HitBTCMarginAccount>>(result.Data?.Result, result.Error);
+        }
+
+        /// <summary>
+        /// Get margin orders
+        /// </summary>
+        /// <returns>margin orders</returns>
+        public CallResult<IEnumerable<HitBTCOrder>> GetMarginOrders() => GetMarginOrdersAsync().Result;
+
+        /// <summary>
+        /// Get margin orders async
+        /// </summary>
+        /// <returns>margin accounts</returns>
+        public async Task<CallResult<IEnumerable<HitBTCOrder>>> GetMarginOrdersAsync()
+        {
+            var request = new GetMarginOrdersRequest(NextId());
+            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
+
+            return new CallResult<IEnumerable<HitBTCOrder>>(result.Data?.Result, result.Error);
+        }
+
+        /// <summary>
+        /// Cancel all active margin orders.
+        /// </summary>
+        /// <returns>margin orders</returns>
+        public CallResult<IEnumerable<HitBTCOrder>> CancelMarginOrders() => CancelMarginOrdersAsync().Result;
+
+        /// <summary>
+        /// Cancel all active margin orders async.
+        /// </summary>
+        /// <returns>margin accounts</returns>
+        public async Task<CallResult<IEnumerable<HitBTCOrder>>> CancelMarginOrdersAsync()
+        {
+            var request = new CancelMarginOrdersRequest(NextId());
+            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
+
+            return new CallResult<IEnumerable<HitBTCOrder>>(result.Data?.Result, result.Error);
+        }
+
+        /// <summary>
+        /// Place new margin order
+        /// </summary>
+        /// <returns>Order</returns>
+        public CallResult<HitBTCOrder> PlaceMarginOrder(
+            string clientOrderId,
+            string symbol,
+            HitBTCSide side,
+            HitBTCOrderType type,
+            decimal price,
+            decimal quantity,
+            decimal stopPrice,
+            HitBTCTimeInForce timeInForce = HitBTCTimeInForce.GTC
+        ) => PlaceMarginOrderAsync(
+            clientOrderId,
+            symbol,
+            side,
+            type,
+            price,
+            quantity,
+            stopPrice,
+            timeInForce
+        ).Result;
+
+        /// <summary>
+        /// Place new margin order async
+        /// </summary>
+        /// <returns>Order</returns>
+        public async Task<CallResult<HitBTCOrder>> PlaceMarginOrderAsync(
+            string clientOrderId,
+            string symbol,
+            HitBTCSide side,
+            HitBTCOrderType type,
+            decimal price,
+            decimal quantity,
+            decimal stopPrice,
+            HitBTCTimeInForce timeInForce = HitBTCTimeInForce.GTC
+        )
+        {
+            var request = new PlaceMarginOrderRequest(
+                NextId(),
+                clientOrderId,
+                symbol,
+                side,
+                type,
+                price,
+                quantity,
+                stopPrice
+            );
+
+            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+
+            return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
+        }
+
+        /// <summary>
+        /// Replace margin order
+        /// </summary>
+        /// <returns>Symbol</returns>
+        public CallResult<HitBTCOrder> RePlaceMarginOrder(
+            string clientOrderId,
+            string requestClientOrderId,
+            decimal price,
+            decimal quantity
+            ) => RePlaceMarginOrderAsync(
+                clientOrderId,
+                requestClientOrderId,
+                price,
+                quantity
+            ).Result;
+
+        /// <summary>
+        /// Replace order async
+        /// </summary>
+        /// <returns>order</returns>
+        public async Task<CallResult<HitBTCOrder>> RePlaceMarginOrderAsync(string clientOrderId, string requestClientOrderId, decimal price, decimal quantity)
+        {
+            var request = new RePlaceMarginOrderRequest(
+               NextId(),
+               clientOrderId,
+               requestClientOrderId,
+               price,
+               quantity
+            );
+
+            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+
+            return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
+        }
+
+        /// <summary>
+        /// Cancel order
+        /// </summary>
+        /// <returns>Order</returns>
+        public CallResult<HitBTCOrder> CancelOrder(string clientOrderId) => CancelOrderAsync(clientOrderId).Result;
+
+        /// <summary>
+        /// Cancel order
+        /// </summary>
+        /// <returns>Order</returns>
+        public async Task<CallResult<HitBTCOrder>> CancelOrderAsync(string clientOrderId)
+        {
+            var request = new CancelOrderRequest(NextId(), clientOrderId);
+            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+
+            return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
+        }
+
+        /// <summary>
+        /// Unsubscribe from a stream (trades, candles or market depths)
+        /// </summary>
+        /// <param name="subscription">The subscription to unsubscribe</param>
+        /// <returns></returns>
+        public override async Task Unsubscribe(UpdateSubscription subscription)
+        {
+            if (subscription == null)
+                throw new ArgumentNullException(nameof(subscription));
+
+            await subscription.Close().ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Set the default options for new clients
         /// </summary>
         /// <param name="options">Options to use for new clients</param>
@@ -378,7 +614,6 @@ namespace HitBTC.Net
         {
             defaultOptions = options;
         }
-
 
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
@@ -516,6 +751,15 @@ namespace HitBTC.Net
 
                     return (request as SubscribeTradesRequest).GetSymbol() == symbol;
                 }
+                if (request is SubscribeMarginReportsRequest)
+                {
+                    if (method != "marginOrders" || method != "marginAccounts")
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }
             }
 
             return false;
@@ -573,6 +817,68 @@ namespace HitBTC.Net
             });
 
             return result;
+        }
+
+        /// <summary>
+        /// Subscribe using a specif URL
+        /// </summary>
+        /// <typeparam name="T">The type of the expected data</typeparam>
+        /// <param name="url">The URL to connect to</param>
+        /// <param name="request">The request to send</param>
+        /// <param name="identifier">The identifier to use</param>
+        /// <param name="authenticated">If the subscription should be authenticated</param>
+        /// <param name="dataHandler">The handler of update data</param>
+        /// <returns></returns>
+        protected override async Task<CallResult<UpdateSubscription>> Subscribe<T>(string url, object? request, string? identifier, bool authenticated, Action<T> dataHandler)
+        {
+            SocketConnection socket;
+            SocketSubscription handler;
+            var released = false;
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
+            try
+            {
+                socket = GetWebsocket(url, authenticated);
+                handler = AddHandler(request, identifier, true, socket, dataHandler);
+                if (SocketCombineTarget == 1)
+                {
+                    // Can release early when only a single sub per connection
+                    semaphoreSlim.Release();
+                    released = true;
+                }
+
+                var connectResult = await ConnectIfNeeded(socket, authenticated).ConfigureAwait(false);
+                if (!connectResult)
+                    return new CallResult<UpdateSubscription>(null, connectResult.Error);
+            }
+            finally
+            {
+                //When the task is ready, release the semaphore. It is vital to ALWAYS release the semaphore when we are ready, or else we will end up with a Semaphore that is forever locked.
+                //This is why it is important to do the Release within a try...finally clause; program execution may crash or take a different path, this way you are guaranteed execution
+                if (!released)
+                    semaphoreSlim.Release();
+            }
+
+            if (socket.PausedActivity)
+            {
+                log.Write(LogVerbosity.Info, "Socket has been paused, can't subscribe at this moment");
+                return new CallResult<UpdateSubscription>(default, new ServerError("Socket is paused"));
+            }
+
+            if (request != null)
+            {
+                var subResult = await SubscribeAndWait(socket, request, handler).ConfigureAwait(false);
+                if (!subResult)
+                {
+                    return new CallResult<UpdateSubscription>(null, subResult.Error);
+                }
+            }
+            else
+            {
+                handler.Confirmed = true;
+            }
+
+            socket.ShouldReconnect = true;
+            return new CallResult<UpdateSubscription>(new UpdateSubscription(socket, handler), null);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace HitBTC.Net
         /// <param name="options">Options to use for this client</param>
         public HitBTCSocketClient(HitBTCSocketClientOptions options) : base(options, options.ApiCredentials == null ? null : new HitBTCAuthenticationProvider(options.ApiCredentials))
         {
-            SocketCombineTarget = 10;
+            SocketCombineTarget = 30;
         }
         #endregion
 
@@ -185,7 +185,7 @@ namespace HitBTC.Net
         /// <returns>order</returns>
         public async Task<CallResult<HitBTCOrder>> RePlaceOrderAsync(string clientOrderId, string requestClientOrderId, decimal price, decimal quantity)
         {
-            var request = new RePlaceOrderRequest(
+            var request = new RePlaceMarginOrderRequest(
                NextId(),
                clientOrderId,
                requestClientOrderId,
@@ -210,7 +210,7 @@ namespace HitBTC.Net
         /// <returns>Order</returns>
         public async Task<CallResult<HitBTCOrder>> CancelMarginOrderAsync(string clientOrderId)
         {
-            var request = new CancelOrderRequest(NextId(), clientOrderId);
+            var request = new CancelMarginOrderRequest(NextId(), clientOrderId);
             var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
 
             return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
@@ -373,16 +373,18 @@ namespace HitBTC.Net
         /// <summary>
         /// Subscribe to margin reports
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="ordersAction">Orders callback action</param>
+        /// <param name="ordersAction">Accounts callback action</param>
         /// <returns>Subscription</returns>
-        public CallResult<UpdateSubscription> SubscribeMarginReports(Action<HitBTCOrder> action) => SubscribeMarginReportsAsync(action).Result;
+        public CallResult<UpdateSubscription> SubscribeMarginReports(Action<HitBTCOrder> ordersAction, Action<HitBTCMarginAccount> accountsAction) => SubscribeMarginReportsAsync(ordersAction, accountsAction).Result;
 
         /// <summary>
         /// Subscribe to margin reports async
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="ordersAction">Orders callback action</param>
+        /// <param name="ordersAction">Accounts callback action</param>
         /// <returns>Subscription</returns>
-        public async Task<CallResult<UpdateSubscription>> SubscribeMarginReportsAsync(Action<HitBTCOrder> action)
+        public async Task<CallResult<UpdateSubscription>> SubscribeMarginReportsAsync(Action<HitBTCOrder> ordersAction, Action<HitBTCMarginAccount> accountsAction)
         {
             var request = new SubscribeMarginReportsRequest(NextId());
 
@@ -394,19 +396,28 @@ namespace HitBTC.Net
 
                 switch (method)
                 {
-                    //case "activeOrders":
-                    //    var orders = data.ToObject<IEnumerable<HitBTCOrder>>();
+                    case "marginOrders":
+                        var orders = data.ToObject<IEnumerable<HitBTCOrder>>();
 
-                    //    foreach (var order in orders)
-                    //    {
-                    //        action(order);
-                    //    }
-                    //    break;
-                    //case "report":
-                    //    var report = data.ToObject<HitBTCReport>();
+                        foreach (var order in orders)
+                        {
+                            ordersAction(order);
+                        }
+                        break;
+                    case "marginOrderReport":
+                        ordersAction(data.ToObject<HitBTCReport>());
+                        break;
+                    case "marginAccounts":
+                        var accounts = data.ToObject<IEnumerable<HitBTCMarginAccount>>();
 
-                    //    action(report);
-                    //    break;
+                        foreach (var account in accounts)
+                        {
+                            accountsAction(account);
+                        }
+                        break;
+                    case "marginAccountReport":
+                        accountsAction(data.ToObject<HitBTCMarginAccount>());
+                        break;
                 }
             });
 
@@ -594,19 +605,6 @@ namespace HitBTC.Net
         }
 
         /// <summary>
-        /// Unsubscribe from a stream (trades, candles or market depths)
-        /// </summary>
-        /// <param name="subscription">The subscription to unsubscribe</param>
-        /// <returns></returns>
-        public override async Task Unsubscribe(UpdateSubscription subscription)
-        {
-            if (subscription == null)
-                throw new ArgumentNullException(nameof(subscription));
-
-            await subscription.Close().ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Set the default options for new clients
         /// </summary>
         /// <param name="options">Options to use for new clients</param>
@@ -753,7 +751,7 @@ namespace HitBTC.Net
                 }
                 if (request is SubscribeMarginReportsRequest)
                 {
-                    if (method != "marginOrders" || method != "marginAccounts")
+                    if (method != "marginOrders" && method != "marginOrderReport" && method != "marginAccounts" && method != "marginAccountReport")
                     {
                         return false;
                     }
@@ -770,9 +768,47 @@ namespace HitBTC.Net
             throw new System.NotImplementedException();
         }
 
-        protected override Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
+        protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
         {
-            throw new System.NotImplementedException();
+            var request = s.Request;
+            HitBTCSocketRequest unsubscribeRequest = null;
+
+            if (request is SubscribeOrderBookRequest)
+            {
+                var typed = (request as SubscribeOrderBookRequest);
+
+                unsubscribeRequest = new UnSubscribeOrderBookRequest(NextId(), typed.GetSymbol());
+            }
+            else if (request is SubscribeCandlesRequest)
+            {
+                var typed = (request as SubscribeCandlesRequest);
+                HitBTCPeriod period = (HitBTCPeriod)HitBTCPeriod.Parse(typeof(HitBTCPeriod), typed.GetPeriod(), true);
+                unsubscribeRequest = new UnSubscribeCandlesRequest(NextId(), typed.GetSymbol(), period);
+            }
+            else if (request is SubscribeTradesRequest)
+            {
+                var typed = (request as SubscribeTradesRequest);
+                unsubscribeRequest = new UnSubscribeTradesRequest(NextId(), typed.GetSymbol());
+            }
+
+            var result = false;
+            await connection.SendAndWait(unsubscribeRequest, ResponseTimeout, data =>
+            {
+                if (data.Type != JTokenType.Object)
+                    return false;
+
+                string symbol = (string)data["params"]["symbol"];
+
+                if (symbol == null)
+                    return false;
+
+                if (symbol != unsubscribeRequest.Parameters["symbol"])
+                    return false;
+
+                return true;
+            }).ConfigureAwait(false);
+
+            return result;
         }
 
         protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)

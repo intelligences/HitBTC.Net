@@ -42,7 +42,7 @@ namespace HitBTC.Net.Objects
         /// The market price of the margin call.
         /// </summary>
         [JsonProperty("priceMarginCall")]
-        public decimal PriceMarginCall { get; private set; }
+        public decimal? PriceMarginCall { get; private set; }
 
         /// <summary>
         /// The market price of force close.

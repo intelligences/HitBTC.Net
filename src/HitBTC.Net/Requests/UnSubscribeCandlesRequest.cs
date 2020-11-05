@@ -10,14 +10,13 @@ namespace HitBTC.Net.Requests
         private readonly string symbol;
         private readonly string period;
 
-        public UnSubscribeCandlesRequest(int id, string symbol, HitBTCPeriod period, int limit = 100) : base(id, "unsubscribeCandles")
+        public UnSubscribeCandlesRequest(int id, string symbol, HitBTCPeriod period) : base(id, "unsubscribeCandles")
         {
             this.symbol = symbol;
             this.period = period.GetValue();
 
             this.AddParameter("symbol", symbol);
             this.AddParameter("period", this.period);
-            this.AddParameter("limit", limit);
         }
 
         public string GetSymbol()

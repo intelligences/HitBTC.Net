@@ -32,13 +32,13 @@ namespace HitBTC.Net.Objects
         /// Amount of currency, reserved for margin orders.
         /// </summary>
         [JsonProperty("marginBalanceOrders")]
-        public int MarginBalanceOrders { get; private set; }
+        public decimal MarginBalanceOrders { get; private set; }
 
         /// <summary>
         /// Amount of currency, reserved for margin position close.
         /// </summary>
         [JsonProperty("marginBalanceRequired")]
-        public int MarginBalanceRequired { get; private set; }
+        public decimal MarginBalanceRequired { get; private set; }
 
         /// <summary>
         /// Account creation date and time.

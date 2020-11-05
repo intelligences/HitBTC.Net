@@ -8,7 +8,10 @@
         Expired,
         Suspended,
         Trade,
-        Replaced
+        Replaced,
+        Created,
+        Updated,
+        Closed
     }
 
 }

@@ -10,6 +10,7 @@ using HitBTC.Net.Sockets;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HitBTC.Net
@@ -915,6 +916,38 @@ namespace HitBTC.Net
 
             socket.ShouldReconnect = true;
             return new CallResult<UpdateSubscription>(new UpdateSubscription(socket, handler), null);
+        }
+
+        /// <summary>
+        /// Gets a connection for a new subscription or query. Can be an existing if there are open position or a new one.
+        /// </summary>
+        /// <param name="address">The address the socket is for</param>
+        /// <param name="authenticated">Whether the socket should be authenticated</param>
+        /// <returns></returns>
+        protected override SocketConnection GetWebsocket(string address, bool authenticated)
+        {
+            var socketResult = sockets.Where(s => s.Value.Socket.Url == address.TrimEnd('/')
+                                                  && (s.Value.Authenticated == authenticated || !authenticated) && s.Value.Connected).OrderBy(s => s.Value.HandlerCount).FirstOrDefault();
+            var result = socketResult.Equals(default(KeyValuePair<int, SocketConnection>)) ? null : socketResult.Value;
+            if (result != null)
+            {
+                if (result.HandlerCount < SocketCombineTarget || (sockets.Count >= MaxSocketConnections && sockets.All(s => s.Value.HandlerCount >= SocketCombineTarget)))
+                {
+                    // Use existing socket if it has less than target connections OR it has the least connections and we can't make new
+                    return result;
+                }
+            }
+
+            // Create new socket
+            var socket = CreateSocket(address.TrimEnd('/'));
+            var socketWrapper = new SocketConnection(this, socket);
+            foreach (var kvp in genericHandlers)
+            {
+                var handler = SocketSubscription.CreateForIdentifier(kvp.Key, false, kvp.Value);
+                socketWrapper.AddHandler(handler);
+            }
+
+            return socketWrapper;
         }
     }
 }

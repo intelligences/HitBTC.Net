@@ -38,9 +38,35 @@ namespace HitBTC.Net
                 parameters.Add("sKey", Credentials.Secret.GetString());
             }
 
-           //parameters.Add("nonce", nonce);
-
             return parameters;
+        }
+    }
+
+    public class HitBTCRestAuthenticationProvider : AuthenticationProvider
+    {
+        public HitBTCRestAuthenticationProvider(ApiCredentials credentials) : base(credentials)
+        {
+            if (credentials.Secret == null)
+                throw new ArgumentException("ApiKey/Secret needed");
+        }
+
+        public override Dictionary<string, string> AddAuthenticationToHeaders(string uri, HttpMethod method, Dictionary<string, object> parameters, bool signed, PostParameters postParameterPosition, ArrayParametersSerialization arraySerialization)
+        {
+            if (!signed)
+                return new Dictionary<string, string>();
+
+            if (Credentials.Key == null)
+                throw new ArgumentException("ApiKey/Secret needed");
+
+            if (Credentials.Secret == null)
+                throw new ArgumentException("ApiKey/Secret needed");
+
+            var result = new Dictionary<string, string>();
+
+            var encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(Credentials.Key.GetString() + ":" + Credentials.Secret.GetString()));
+            result.Add("Authorization", "Basic " + encoded);
+
+            return result;
         }
     }
 }

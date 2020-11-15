@@ -6,7 +6,7 @@ namespace HitBTC.Net.Objects
     /// <summary>
     /// Ticker
     /// </summary>
-    public class HitTicker
+    public class HitBTCTicker
     {
         /// <summary>
         /// Best ask price

@@ -20,6 +20,10 @@ Implementation is build upon the CryptoExchange.Net library, make sure to also c
 Other CryptoExchange.Net implementations:
 <table>
 <tr>
+<td><a href="https://github.com/JKorf/Bittrex.Net"><img src="https://github.com/JKorf/Bittrex.Net/blob/master/Bittrex.Net/Icon/icon.png?raw=true"></a>
+<br />
+<a href="https://github.com/JKorf/Bittrex.Net">Bittrex</a>
+</td>
 <td><a href="https://github.com/JKorf/Bitfinex.Net"><img src="https://github.com/JKorf/Bitfinex.Net/blob/master/Bitfinex.Net/Icon/icon.png?raw=true"></a>
 <br />
 <a href="https://github.com/JKorf/Bitfinex.Net">Bitfinex</a>

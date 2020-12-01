@@ -2,14 +2,17 @@
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
 using HitBTC.Net.Enum;
+using HitBTC.Net.Filters;
 using HitBTC.Net.Interfaces;
 using HitBTC.Net.Objects;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace HitBTC.Net
 {
@@ -52,18 +55,27 @@ namespace HitBTC.Net
         /// <summary>
         /// Get a list of all currencies
         /// </summary>
+        /// <param name="currencies">Currencies filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of currencies</returns>
-        public WebCallResult<IEnumerable<HitBTCCurrency>> GetCurrencies(CancellationToken ct = default) => GetCurrenciesAsync(ct).Result;
+        public WebCallResult<IEnumerable<HitBTCCurrency>> GetCurrencies(IEnumerable<string>? currencies = null, CancellationToken ct = default) => GetCurrenciesAsync(currencies, ct).Result;
 
         /// <summary>
         /// Get a list of all currencies
         /// </summary>
+        /// <param name="currencies">Currencies filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of currencies</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCCurrency>>> GetCurrenciesAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCCurrency>>> GetCurrenciesAsync(IEnumerable<string>? currencies = null, CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<HitBTCCurrency>>(GetUrl("public/currency"), HttpMethod.Get, ct).ConfigureAwait(false);
+            Dictionary<string, object>? parameters = new Dictionary<string, object>();
+
+            if (currencies != null && currencies.Count() > 0)
+            {
+                parameters.Add("currencies", String.Join(",", currencies));
+            }
+
+            return await SendRequest<IEnumerable<HitBTCCurrency>>(GetUrl("public/currency"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -88,18 +100,27 @@ namespace HitBTC.Net
         /// <summary>
         /// Get a list of all symbols
         /// </summary>
+        /// <param name="symbols">Filter symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of symbols</returns>
-        public WebCallResult<IEnumerable<HitBTCSymbol>> GetSymbols(CancellationToken ct = default) => GetSymbolsAsync(ct).Result;
+        public WebCallResult<IEnumerable<HitBTCSymbol>> GetSymbols(IEnumerable<string>? symbols = null, CancellationToken ct = default) => GetSymbolsAsync(symbols, ct).Result;
 
         /// <summary>
         /// Get a list of all symbols
         /// </summary>
+        /// <param name="symbols">Filter symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of symbols</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCSymbol>>> GetSymbolsAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCSymbol>>> GetSymbolsAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<HitBTCSymbol>>(GetUrl("public/symbol"), HttpMethod.Get, ct).ConfigureAwait(false);
+            Dictionary<string, object>? parameters = new Dictionary<string, object>();
+
+            if (symbols != null && symbols.Count() > 0)
+            {
+                parameters.Add("symbols", String.Join(",", symbols));
+            }
+
+            return await SendRequest<IEnumerable<HitBTCSymbol>>(GetUrl("public/symbol"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -124,18 +145,27 @@ namespace HitBTC.Net
         /// <summary>
         /// Get tickers for all symbols
         /// </summary>
+        /// <param name="symbols">Filter symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of tickers</returns>
-        public WebCallResult<IEnumerable<HitBTCTicker>> GetTickers(CancellationToken ct = default) => GetTickersAsync(ct).Result;
+        public WebCallResult<IEnumerable<HitBTCTicker>> GetTickers(IEnumerable<string>? symbols = null, CancellationToken ct = default) => GetTickersAsync(symbols, ct).Result;
 
         /// <summary>
         /// Get tickers for all symbols
         /// </summary>
+        /// <param name="symbols">Filter symbols</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of tickers</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCTicker>>> GetTickersAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCTicker>>> GetTickersAsync(IEnumerable<string>? symbols = null, CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<HitBTCTicker>>(GetUrl("public/ticker"), HttpMethod.Get, ct).ConfigureAwait(false);
+            Dictionary<string, object>? parameters = new Dictionary<string, object>();
+
+            if (symbols != null && symbols.Count() > 0)
+            {
+                parameters.Add("symbols", String.Join(",", symbols));
+            }
+
+            return await SendRequest<IEnumerable<HitBTCTicker>>(GetUrl("public/ticker"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -160,18 +190,22 @@ namespace HitBTC.Net
         /// <summary>
         /// Get trades for all symbols
         /// </summary>
+        /// <param name="filter">Filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of trades</returns>
-        public WebCallResult<IDictionary<string, IEnumerable<HitBTCTrade>>> GetTrades(CancellationToken ct = default) => GetTradesAsync(ct).Result;
+        public WebCallResult<IDictionary<string, IEnumerable<HitBTCTrade>>> GetTrades(TradesRequestFilter filter, CancellationToken ct = default) => GetTradesAsync(filter, ct).Result;
 
         /// <summary>
         /// Get trades for all symbols
         /// </summary>
+        /// <param name="filter">Filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of trades</returns>
-        public async Task<WebCallResult<IDictionary<string, IEnumerable<HitBTCTrade>>>> GetTradesAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IDictionary<string, IEnumerable<HitBTCTrade>>>> GetTradesAsync(TradesRequestFilter filter, CancellationToken ct = default)
         {
-            return await SendRequest<IDictionary<string, IEnumerable<HitBTCTrade>>>(GetUrl("public/trades"), HttpMethod.Get, ct).ConfigureAwait(false);
+            Dictionary<string, object>? parameters = filter.ToParametersDictionary();
+
+            return await SendRequest<IDictionary<string, IEnumerable<HitBTCTrade>>>(GetUrl("public/trades"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -196,54 +230,78 @@ namespace HitBTC.Net
         /// <summary>
         /// Get Order Books for all symbols
         /// </summary>
+        /// <param name="filter">Filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of Order Books</returns>
-        public WebCallResult<IDictionary<string, HitBTCOrderBook>> GetOrderBooks(CancellationToken ct = default) => GetOrderBooksAsync(ct).Result;
+        public WebCallResult<IDictionary<string, HitBTCOrderBook>> GetOrderBooks(OrderBookRequestFilter filter = null, CancellationToken ct = default) => GetOrderBooksAsync(filter, ct).Result;
 
         /// <summary>
         /// Get Order Books for all symbols
         /// </summary>
+        /// <param name="filter">Filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of Order Books</returns>
-        public async Task<WebCallResult<IDictionary<string, HitBTCOrderBook>>> GetOrderBooksAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IDictionary<string, HitBTCOrderBook>>> GetOrderBooksAsync(OrderBookRequestFilter filter = null, CancellationToken ct = default)
         {
-            return await SendRequest<IDictionary<string, HitBTCOrderBook>>(GetUrl("public/orderbook"), HttpMethod.Get, ct).ConfigureAwait(false);
+            Dictionary<string, object>? parameters = filter.ToParametersDictionary();
+
+            return await SendRequest<IDictionary<string, HitBTCOrderBook>>(GetUrl("public/orderbook"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Get Order Book for specified symbols
         /// </summary>
         /// <param name="symbol">The symbol to get info for</param>
+        /// <param name="volume">Desired volume for market depth search</param>
+        /// <param name="limit">Limit of Order Book levels. Default value: 100. Set 0 to view full list of Order Book levels.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order Book</returns>
-        public WebCallResult<HitBTCOrderBook> GetOrderBook(string symbol, CancellationToken ct = default) => GetOrderBookAsync(symbol, ct).Result;
+        public WebCallResult<HitBTCOrderBook> GetOrderBook(string symbol, int? volume = null, int? limit = null, CancellationToken ct = default) => GetOrderBookAsync(symbol, volume, limit, ct).Result;
 
         /// <summary>
         /// Get Order Book for specified symbols
         /// </summary>
         /// <param name="symbol">The symbol to get info for</param>
+        /// <param name="volume">Desired volume for market depth search</param>
+        /// <param name="limit">Limit of Order Book levels. Default value: 100. Set 0 to view full list of Order Book levels.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Order Book</returns>
-        public async Task<WebCallResult<HitBTCOrderBook>> GetOrderBookAsync(string symbol, CancellationToken ct = default)
+        public async Task<WebCallResult<HitBTCOrderBook>> GetOrderBookAsync(string symbol, int? volume = null, int? limit = null, CancellationToken ct = default)
         {
-            return await SendRequest<HitBTCOrderBook>(GetUrl("public/orderbook/" + symbol), HttpMethod.Get, ct).ConfigureAwait(false);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            if (volume != null && volume > 0)
+            {
+                parameters.Add("volume", volume);
+            }
+
+            if (limit != null && limit > 0)
+            {
+                parameters.Add("limit", limit);
+            }
+
+            return await SendRequest<HitBTCOrderBook>(GetUrl("public/orderbook/" + symbol), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Get candles for all symbols
         /// </summary>
+        /// <param name="filter">Candles filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of candles</returns>
-        public WebCallResult<IDictionary<string, IEnumerable<HitBTCCandle>>> GetCandles(CancellationToken ct = default) => GetCandlesAsync(ct).Result;
+        public WebCallResult<IDictionary<string, IEnumerable<HitBTCCandle>>> GetCandles(CandlesRequestFilter? filter = null, CancellationToken ct = default) => GetCandlesAsync(filter, ct).Result;
 
         /// <summary>
         /// Get candles for all symbols
         /// </summary>
+        /// <param name="filter">Candles filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of candles</returns>
-        public async Task<WebCallResult<IDictionary<string, IEnumerable<HitBTCCandle>>>> GetCandlesAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IDictionary<string, IEnumerable<HitBTCCandle>>>> GetCandlesAsync(CandlesRequestFilter? filter = null, CancellationToken ct = default)
         {
-            return await SendRequest<IDictionary<string, IEnumerable<HitBTCCandle>>>(GetUrl("public/candles"), HttpMethod.Get, ct).ConfigureAwait(false);
+            Dictionary<string, object>? parameters = filter.ToParametersDictionary();
+
+            return await SendRequest<IDictionary<string, IEnumerable<HitBTCCandle>>>(GetUrl("public/candles"), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -285,18 +343,27 @@ namespace HitBTC.Net
         /// <summary>
         /// Get orders
         /// </summary>
+        /// <param name="symbol">Filter orders by symbol</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Return array of active orders.</returns>
-        public WebCallResult<IEnumerable<HitBTCOrder>> GetOrders(CancellationToken ct = default) => GetOrdersAsync(ct).Result;
+        public WebCallResult<IEnumerable<HitBTCOrder>> GetOrders(string? symbol = null, CancellationToken ct = default) => GetOrdersAsync(symbol, ct).Result;
 
         /// <summary>
         /// Get orders
         /// </summary>
+        /// <param name="symbol">Filter orders by symbol</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Return array of active orders.</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> GetOrdersAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> GetOrdersAsync(string? symbol = null, CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<HitBTCOrder>>(GetUrl("order"), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            if (!String.IsNullOrEmpty(symbol))
+            {
+                parameters.Add("symbol", symbol);
+            }
+
+            return await SendRequest<IEnumerable<HitBTCOrder>>(GetUrl("order", parameters.ToQueryString()), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -419,18 +486,27 @@ namespace HitBTC.Net
         /// <summary>
         /// Cancel orders
         /// </summary>
+        /// <param name="symbol">Optional parameter to filter active orders by symbol</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Return active order.</returns>
-        public WebCallResult<IEnumerable<HitBTCOrder>> CancelOrders(CancellationToken ct = default) => CancelOrdersAsync(ct).Result;
+        public WebCallResult<IEnumerable<HitBTCOrder>> CancelOrders(string? symbol = null, CancellationToken ct = default) => CancelOrdersAsync(symbol, ct).Result;
 
         /// <summary>
         /// Cancel orders
         /// </summary>
+        /// <param name="symbol">Optional parameter to filter active orders by symbol</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Return active order.</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> CancelOrdersAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> CancelOrdersAsync(string? symbol = null, CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<HitBTCOrder>>(GetUrl("order"), HttpMethod.Delete, ct, signed: true).ConfigureAwait(false);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            if (!String.IsNullOrEmpty(symbol))
+            {
+                parameters.Add("symbol", symbol);
+            }
+
+            return await SendRequest<IEnumerable<HitBTCOrder>>(GetUrl("order"), HttpMethod.Delete, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -648,19 +724,27 @@ namespace HitBTC.Net
         /// <summary>
         /// Get Active Margin Orders
         /// </summary>
+        /// <param name="symbol">Parameter to filter active orders by symbol.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Returns an array of the active margin orders.</returns>
-        public WebCallResult<IEnumerable<HitBTCOrder>> GetActiveMarginOrders(CancellationToken ct = default) => GetActiveMarginOrdersAsync(ct).Result;
+        public WebCallResult<IEnumerable<HitBTCOrder>> GetActiveMarginOrders(string? symbol = null, CancellationToken ct = default) => GetActiveMarginOrdersAsync(symbol, ct).Result;
 
         /// <summary>
-        /// Close Margin Position
+        /// Get Active Margin Orders
         /// </summary>
-        /// <param name="symbol">Symbol</param>
+        /// <param name="symbol">Parameter to filter active orders by symbol.</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Returns a list of the successfully closed margin positions.</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> GetActiveMarginOrdersAsync(CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> GetActiveMarginOrdersAsync(string? symbol = null, CancellationToken ct = default)
         {
-            return await SendRequest<IEnumerable<HitBTCOrder>>(GetUrl("margin/order"), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            if (!String.IsNullOrEmpty(symbol))
+            {
+                parameters.Add("symbol", symbol);
+            }
+
+            return await SendRequest<IEnumerable<HitBTCOrder>>(GetUrl("margin/order"), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -830,13 +914,80 @@ namespace HitBTC.Net
         }
 
         /// <summary>
+        /// Get historycal orders
+        /// </summary>
+        /// <param name="filter">Filter</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Returns historycal orders.</returns>
+        public WebCallResult<IEnumerable<HitBTCOrder>> GetHistoryOrders(HistoryOrderRequestFilter filter = null, CancellationToken ct = default) => GetHistoryOrdersAsync(filter, ct).Result;
+
+        /// <summary>
+        /// Get historycal orders
+        /// </summary>
+        /// <param name="filter">Filter</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Returns historycal orders.</returns>
+        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> GetHistoryOrdersAsync(HistoryOrderRequestFilter filter, CancellationToken ct = default)
+        {
+            Dictionary<string, object>? parameters = filter.ToParametersDictionary();
+
+            return await SendRequest<IEnumerable<HitBTCOrder>>(GetUrl("history/order"), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Get historycal trades
+        /// </summary>
+        /// <param name="filter">Filter</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Returns historycal orders.</returns>
+        public WebCallResult<IEnumerable<HitBTCTrade>> GetHistoryTrades(HistoryTradesRequestFilter filter = null, CancellationToken ct = default) => GetHistoryTradesAsync(filter, ct).Result;
+
+        /// <summary>
+        /// Get historycal orders
+        /// </summary>
+        /// <param name="filter">Filter</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Returns historycal orders.</returns>
+        public async Task<WebCallResult<IEnumerable<HitBTCTrade>>> GetHistoryTradesAsync(HistoryTradesRequestFilter filter, CancellationToken ct = default)
+        {
+            Dictionary<string, object>? parameters = filter.ToParametersDictionary();
+
+            return await SendRequest<IEnumerable<HitBTCTrade>>(GetUrl("history/trades"), HttpMethod.Get, ct, parameters, signed: true).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Trades by order
+        /// </summary>
+        /// <param name="orderId">Order ID</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Returns historycal orders.</returns>
+        public WebCallResult<IEnumerable<HitBTCTrade>> GetHistoryOrderTrades(string orderId, CancellationToken ct = default) => GetHistoryOrderTradesAsync(orderId, ct).Result;
+
+        /// <summary>
+        /// Trades by order
+        /// </summary>
+        /// <param name="orderId">Order ID</param>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Returns historycal orders.</returns>
+        public async Task<WebCallResult<IEnumerable<HitBTCTrade>>> GetHistoryOrderTradesAsync(string orderId, CancellationToken ct = default)
+        {
+            return await SendRequest<IEnumerable<HitBTCTrade>>(GetUrl("order/" + orderId  + "/trades"), HttpMethod.Get, ct, signed: true).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Get url for an endpoint
         /// </summary>
         /// <param name="endpoint"></param>
         /// <returns></returns>
-        protected Uri GetUrl(string endpoint)
+        protected Uri GetUrl(string endpoint, string? queryString = null)
         {
-            return new Uri($"{BaseAddress}{endpoint}");
+            string query = "";
+            if (!String.IsNullOrEmpty(queryString))
+            {
+                query = "?" + queryString;
+            }
+
+            return new Uri($"{BaseAddress}{endpoint}{query}");
         }
 
         /// <inheritdoc />
@@ -850,6 +1001,5 @@ namespace HitBTC.Net
            
             return new ServerError((int)data["status"], message);
         }
-
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -15,9 +15,9 @@
     <PackageProjectUrl></PackageProjectUrl>
     <PackageId>HitBTC_Net</PackageId>
     <PackageIcon>icon.png</PackageIcon>
-    <AssemblyVersion>1.0.1.9</AssemblyVersion>
-    <FileVersion>1.0.1.9</FileVersion>
-    <Version>1.0.1.9</Version>
+    <AssemblyVersion>1.0.2.1</AssemblyVersion>
+    <FileVersion>1.0.2.1</FileVersion>
+    <Version>1.0.2.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,10 +30,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="\\Mac\Home\Downloads\CryptoExchange.Net-master\CryptoExchange.Net-master\CryptoExchange.Net\CryptoExchange.Net.csproj" />
   </ItemGroup>
 
 </Project>

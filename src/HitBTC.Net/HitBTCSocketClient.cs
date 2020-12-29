@@ -32,7 +32,7 @@ namespace HitBTC.Net
         /// Creates a new socket client using the provided options
         /// </summary>
         /// <param name="options">Options to use for this client</param>
-        public HitBTCSocketClient(HitBTCSocketClientOptions options) : base(options, options.ApiCredentials == null ? null : new HitBTCAuthenticationProvider(options.ApiCredentials))
+        public HitBTCSocketClient(HitBTCSocketClientOptions options) : base("HitBTC", options, options.ApiCredentials == null ? null : new HitBTCAuthenticationProvider(options.ApiCredentials))
         {
             SocketCombineTarget = 30;
         }

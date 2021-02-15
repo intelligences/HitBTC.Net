@@ -32,7 +32,7 @@ namespace HitBTC.Net
         /// <summary>
         /// Create a new instance of the HitBTCClient with the provided options
         /// </summary>
-        public HitBTCClient(HitBTCClientOptions options) : base(options, options.ApiCredentials == null ? null : new HitBTCRestAuthenticationProvider(options.ApiCredentials))
+        public HitBTCClient(HitBTCClientOptions options) : base("HitBTC", options, options.ApiCredentials == null ? null : new HitBTCRestAuthenticationProvider(options.ApiCredentials))
         {
         }
         #endregion constructor

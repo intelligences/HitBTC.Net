@@ -343,7 +343,7 @@ namespace HitBTC.Net
                 action(response.Data);
             });
 
-            return await Subscribe<HitBTCSocketSubscriptionResponse<HitBTCCandleData>>(request, null, true, internalHandler).ConfigureAwait(false);
+            return await Subscribe<HitBTCSocketSubscriptionResponse<HitBTCCandleData>>(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace HitBTC.Net
                 action(response.Data);
             });
 
-            return await Subscribe<HitBTCSocketSubscriptionResponse<HitBTCTradesData>>(request, null, true, internalHandler).ConfigureAwait(false);
+            return await Subscribe<HitBTCSocketSubscriptionResponse<HitBTCTradesData>>(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>

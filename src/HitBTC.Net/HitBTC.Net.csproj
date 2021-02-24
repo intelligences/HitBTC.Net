@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0; netstandard2.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -15,9 +15,8 @@
     <PackageProjectUrl></PackageProjectUrl>
     <PackageId>HitBTC_Net</PackageId>
     <PackageIcon>icon.png</PackageIcon>
-    <AssemblyVersion>1.0.2.1</AssemblyVersion>
-    <FileVersion>1.0.2.1</FileVersion>
-    <Version>1.0.2.1</Version>
+    <Version>1.0.3</Version>
+    <PackageReleaseNotes>1.0.3 - Fix unsubscription from candles</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

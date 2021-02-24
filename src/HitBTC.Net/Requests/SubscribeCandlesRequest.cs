@@ -8,15 +8,15 @@ namespace HitBTC.Net.Requests
     internal class SubscribeCandlesRequest : HitBTCSocketRequest
     {
         private readonly string symbol;
-        private readonly string period;
+        private readonly HitBTCPeriod period;
 
         public SubscribeCandlesRequest(int id, string symbol, HitBTCPeriod period, int limit = 100) : base(id, "subscribeCandles")
         {
             this.symbol = symbol;
-            this.period = period.GetValue();
+            this.period = period;
 
             this.AddParameter("symbol", symbol);
-            this.AddParameter("period", this.period);
+            this.AddParameter("period", this.period.GetValue());
             this.AddParameter("limit", limit);
         }
 
@@ -25,7 +25,7 @@ namespace HitBTC.Net.Requests
             return this.symbol;
         }
 
-        public string GetPeriod()
+        public HitBTCPeriod GetPeriod()
         {
             return this.period;
         }

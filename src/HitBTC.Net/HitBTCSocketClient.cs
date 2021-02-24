@@ -737,7 +737,7 @@ namespace HitBTC.Net
 
                     var typed = (request as SubscribeCandlesRequest);
 
-                    return typed.GetSymbol() == symbol && typed.GetPeriod() == period;
+                    return typed.GetSymbol() == symbol && typed.GetPeriod().GetValue() == period;
                 }
                 if (request is SubscribeTradesRequest)
                 {
@@ -783,8 +783,8 @@ namespace HitBTC.Net
             else if (request is SubscribeCandlesRequest)
             {
                 var typed = (request as SubscribeCandlesRequest);
-                HitBTCPeriod period = (HitBTCPeriod)HitBTCPeriod.Parse(typeof(HitBTCPeriod), typed.GetPeriod(), true);
-                unsubscribeRequest = new UnSubscribeCandlesRequest(NextId(), typed.GetSymbol(), period);
+
+                unsubscribeRequest = new UnSubscribeCandlesRequest(NextId(), typed.GetSymbol(), typed.GetPeriod());
             }
             else if (request is SubscribeTradesRequest)
             {
@@ -798,12 +798,13 @@ namespace HitBTC.Net
                 if (data.Type != JTokenType.Object)
                     return false;
 
-                string symbol = (string)data["params"]["symbol"];
+                bool result = (bool)data["result"];
+                int id = (int)data["id"];
 
-                if (symbol == null)
+                if (unsubscribeRequest.Id != id)
                     return false;
 
-                if (symbol != unsubscribeRequest.Parameters["symbol"])
+                if (result == null)
                     return false;
 
                 return true;

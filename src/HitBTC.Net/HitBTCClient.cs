@@ -927,7 +927,7 @@ namespace HitBTC.Net
         /// <param name="filter">Filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Returns historycal orders.</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> GetHistoryOrdersAsync(HistoryOrderRequestFilter filter, CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCOrder>>> GetHistoryOrdersAsync(HistoryOrderRequestFilter filter = null, CancellationToken ct = default)
         {
             Dictionary<string, object>? parameters = filter.ToParametersDictionary();
 
@@ -948,7 +948,7 @@ namespace HitBTC.Net
         /// <param name="filter">Filter</param>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Returns historycal orders.</returns>
-        public async Task<WebCallResult<IEnumerable<HitBTCTrade>>> GetHistoryTradesAsync(HistoryTradesRequestFilter filter, CancellationToken ct = default)
+        public async Task<WebCallResult<IEnumerable<HitBTCTrade>>> GetHistoryTradesAsync(HistoryTradesRequestFilter filter = null, CancellationToken ct = default)
         {
             Dictionary<string, object>? parameters = filter.ToParametersDictionary();
 

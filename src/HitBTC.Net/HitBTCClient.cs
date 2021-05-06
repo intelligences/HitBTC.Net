@@ -999,7 +999,7 @@ namespace HitBTC.Net
             var info = data["error"];
             var message = (string)info["message"];
            
-            return new ServerError((int)data["status"], message);
+            return new ServerError((int)info["code"], message);
         }
     }
 }

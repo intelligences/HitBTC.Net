@@ -4,7 +4,7 @@ namespace HitBTC.Net
 {
     public class HitBTCSocketClientOptions : SocketClientOptions
     {
-        public HitBTCSocketClientOptions() : base("wss://api.demo.hitbtc.com/api/2/ws")
+        public HitBTCSocketClientOptions() : base("wss://api.hitbtc.com/api/2/ws")
         {
 
         }

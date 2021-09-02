@@ -15,8 +15,9 @@
     <PackageProjectUrl></PackageProjectUrl>
     <PackageId>HitBTC_Net</PackageId>
     <PackageIcon>icon.png</PackageIcon>
-    <Version>1.0.5.0</Version>
-    <PackageReleaseNotes>1.0.5 - Fix error response parsing for rest client.</PackageReleaseNotes>
+    <Version>1.0.6.0</Version>
+    <PackageReleaseNotes>1.0.6 - Update core to latest version.
+	1.0.5 - Fix error response parsing for rest client.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Logging;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using HitBTC.Net.Enum;
@@ -7,6 +6,7 @@ using HitBTC.Net.Interfaces;
 using HitBTC.Net.Objects;
 using HitBTC.Net.Requests;
 using HitBTC.Net.Sockets;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCCurrency>>> GetCurrenciesAsync()
         {
             var req = new GetCurrenciesRequest(NextId());
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCCurrency>>>(req, false).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCCurrency>>>(req, false).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCCurrency>>(result.Data?.Result, result.Error);
         }
@@ -69,7 +69,7 @@ namespace HitBTC.Net
         public async Task<CallResult<HitBTCCurrency>> GetCurrencyAsync(string id)
         {
             var req = new GetCurrencyRequest(NextId(), id);
-            var result = await Query<HitBTCSocketResponse<HitBTCCurrency>>(req, false).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCCurrency>>(req, false).ConfigureAwait(false);
 
             return new CallResult<HitBTCCurrency>(result.Data?.Result, result.Error);
         }
@@ -87,7 +87,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCSymbol>>> GetSymbolsAsync()
         {
             var req = new GetSymbolsRequest(NextId());
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCSymbol>>>(req, false).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCSymbol>>>(req, false).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCSymbol>>(result.Data?.Result, result.Error);
         }
@@ -105,7 +105,7 @@ namespace HitBTC.Net
         public async Task<CallResult<HitBTCSymbol>> GetSymbolAsync(string id)
         {
             var req = new GetSymbolRequest(NextId(), id);
-            var result = await Query<HitBTCSocketResponse<HitBTCSymbol>>(req, false).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCSymbol>>(req, false).ConfigureAwait(false);
 
             return new CallResult<HitBTCSymbol>(result.Data?.Result, result.Error);
         }
@@ -159,7 +159,7 @@ namespace HitBTC.Net
                 stopPrice
             );
 
-            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
 
             return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
         }
@@ -194,7 +194,7 @@ namespace HitBTC.Net
                quantity
             );
 
-            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
 
             return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
         }
@@ -212,7 +212,7 @@ namespace HitBTC.Net
         public async Task<CallResult<HitBTCOrder>> CancelMarginOrderAsync(string clientOrderId)
         {
             var request = new CancelMarginOrderRequest(NextId(), clientOrderId);
-            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
 
             return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
         }
@@ -230,7 +230,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCOrder>>> GetActiveOrdersAsync()
         {
             var request = new GetActiveOrders(NextId());
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCOrder>>(result.Data?.Result, result.Error);
         }
@@ -248,7 +248,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCBalance>>> GetTradingBalancesAsync()
         {
             var request = new GetTradingBalanceRequest(NextId());
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCBalance>>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCBalance>>>(request, true).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCBalance>>(result.Data?.Result, result.Error);
         }
@@ -269,8 +269,9 @@ namespace HitBTC.Net
         {
             var request = new SubscribeOrdersRequest(NextId());
 
-            var internalHandler = new Action<HitBTCSocketSubscriptionResponse<JToken>>(response =>
+            var internalHandler = new Action<DataEvent<HitBTCSocketSubscriptionResponse<JToken>>>(de =>
             {
+                var response = de.Data;
                 var error = response.Error;
                 var method = response.Method;
                 JToken data = response.Data;
@@ -293,7 +294,7 @@ namespace HitBTC.Net
                 }
             });
 
-            return await Subscribe<HitBTCSocketSubscriptionResponse<JToken>>(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync<HitBTCSocketSubscriptionResponse<JToken>>(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -313,12 +314,12 @@ namespace HitBTC.Net
         {
             var request = new SubscribeOrderBookRequest(NextId(), symbol);
 
-            var internalHandler = new Action<HitBTCSocketSubscriptionResponse<HitBTCOrderBook>>(response =>
+            var internalHandler = new Action<DataEvent<HitBTCSocketSubscriptionResponse<HitBTCOrderBook>>>(de =>
             {
-                action(response.Data);
+                action?.Invoke(de.Data.Data);
             });
 
-            return await Subscribe<HitBTCSocketSubscriptionResponse<HitBTCOrderBook>>(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync<HitBTCSocketSubscriptionResponse<HitBTCOrderBook>>(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -338,12 +339,12 @@ namespace HitBTC.Net
         {
             var request = new SubscribeCandlesRequest(NextId(), symbol, period, limit);
 
-            var internalHandler = new Action<HitBTCSocketSubscriptionResponse<HitBTCCandleData>>(response =>
+            var internalHandler = new Action<DataEvent<HitBTCSocketSubscriptionResponse<HitBTCCandleData>>>(de =>
             {
-                action(response.Data);
+                action(de.Data.Data);
             });
 
-            return await Subscribe<HitBTCSocketSubscriptionResponse<HitBTCCandleData>>(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync<HitBTCSocketSubscriptionResponse<HitBTCCandleData>>(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -363,12 +364,12 @@ namespace HitBTC.Net
         {
             var request = new SubscribeTradesRequest(NextId(), symbol, limit);
 
-            var internalHandler = new Action<HitBTCSocketSubscriptionResponse<HitBTCTradesData>>(response =>
+            var internalHandler = new Action<DataEvent<HitBTCSocketSubscriptionResponse<HitBTCTradesData>>>(de =>
             {
-                action(response.Data);
+                action(de.Data.Data);
             });
 
-            return await Subscribe<HitBTCSocketSubscriptionResponse<HitBTCTradesData>>(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync<HitBTCSocketSubscriptionResponse<HitBTCTradesData>>(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -389,8 +390,9 @@ namespace HitBTC.Net
         {
             var request = new SubscribeMarginReportsRequest(NextId());
 
-            var internalHandler = new Action<HitBTCSocketSubscriptionResponse<JToken>>(response =>
+            var internalHandler = new Action<DataEvent<HitBTCSocketSubscriptionResponse<JToken>>>(de =>
             {
+                var response = de.Data;
                 var error = response.Error;
                 var method = response.Method;
                 JToken data = response.Data;
@@ -422,7 +424,7 @@ namespace HitBTC.Net
                 }
             });
 
-            return await Subscribe<HitBTCSocketSubscriptionResponse<JToken>>(request, null, true, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync<HitBTCSocketSubscriptionResponse<JToken>>(request, null, true, internalHandler).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -438,7 +440,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCMarginAccount>>> GetMarginAccountsAsync()
         {
             var request = new GetMarginAccountsRequest(NextId());
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCMarginAccount>>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCMarginAccount>>>(request, true).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCMarginAccount>>(result.Data?.Result, result.Error);
         }
@@ -456,7 +458,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCMarginAccount>>> CloseMarginPositionAsync(string symbol)
         {
             var request = new CloseMarginPositionRequest(NextId(), symbol);
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCMarginAccount>>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCMarginAccount>>>(request, true).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCMarginAccount>>(result.Data?.Result, result.Error);
         }
@@ -474,7 +476,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCOrder>>> GetMarginOrdersAsync()
         {
             var request = new GetMarginOrdersRequest(NextId());
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCOrder>>(result.Data?.Result, result.Error);
         }
@@ -492,7 +494,7 @@ namespace HitBTC.Net
         public async Task<CallResult<IEnumerable<HitBTCOrder>>> CancelMarginOrdersAsync()
         {
             var request = new CancelMarginOrdersRequest(NextId());
-            var result = await Query<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<IEnumerable<HitBTCOrder>>>(request, true).ConfigureAwait(false);
 
             return new CallResult<IEnumerable<HitBTCOrder>>(result.Data?.Result, result.Error);
         }
@@ -547,7 +549,7 @@ namespace HitBTC.Net
                 stopPrice
             );
 
-            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
 
             return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
         }
@@ -582,7 +584,7 @@ namespace HitBTC.Net
                quantity
             );
 
-            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
 
             return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
         }
@@ -600,7 +602,7 @@ namespace HitBTC.Net
         public async Task<CallResult<HitBTCOrder>> CancelOrderAsync(string clientOrderId)
         {
             var request = new CancelOrderRequest(NextId(), clientOrderId);
-            var result = await Query<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
+            var result = await QueryAsync<HitBTCSocketResponse<HitBTCOrder>>(request, true).ConfigureAwait(false);
 
             return new CallResult<HitBTCOrder>(result.Data?.Result, result.Error);
         }
@@ -665,19 +667,19 @@ namespace HitBTC.Net
 
             if (!subResponse)
             {
-                log.Write(LogVerbosity.Warning, "Subscription failed: " + subResponse.Error);
+                log.Write(LogLevel.Warning, "Subscription failed: " + subResponse.Error);
                 callResult = new CallResult<object>(null, subResponse.Error);
                 return true;
             }
 
             if (subResponse.Data.Error != null)
             {
-                log.Write(LogVerbosity.Debug, $"Failed to subscribe: {subResponse.Data.Error.Code} {subResponse.Data.Error.Message}");
+                log.Write(LogLevel.Debug, $"Failed to subscribe: {subResponse.Data.Error.Code} {subResponse.Data.Error.Message}");
                 callResult = new CallResult<object>(null, new ServerError(subResponse.Data.Error.Code, subResponse.Data.Error.Message));
                 return true;
             }
 
-            log.Write(LogVerbosity.Debug, "Subscription completed");
+            log.Write(LogLevel.Debug, "Subscription completed");
             callResult = new CallResult<object>(subResponse, null);
 
             return true;
@@ -769,7 +771,7 @@ namespace HitBTC.Net
             throw new System.NotImplementedException();
         }
 
-        protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
+        protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription s)
         {
             var request = s.Request;
             HitBTCSocketRequest unsubscribeRequest = null;
@@ -793,7 +795,7 @@ namespace HitBTC.Net
             }
 
             var result = false;
-            await connection.SendAndWait(unsubscribeRequest, ResponseTimeout, data =>
+            await connection.SendAndWaitAsync(unsubscribeRequest, ResponseTimeout, data =>
             {
                 if (data.Type != JTokenType.Object)
                     return false;
@@ -813,7 +815,7 @@ namespace HitBTC.Net
             return result;
         }
 
-        protected override async Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
+        protected override async Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
         {
             if (authProvider == null)
                 return new CallResult<bool>(false, new NoApiCredentialsError());
@@ -821,12 +823,12 @@ namespace HitBTC.Net
             var request = new LoginRequest(NextId(), this.authProvider.Credentials.Key.GetString(), this.authProvider.Credentials.Secret.GetString());
             var result = new CallResult<bool>(false, new ServerError("No response from server"));
 
-            await s.SendAndWait(request, ResponseTimeout, data =>
+            await s.SendAndWaitAsync(request, ResponseTimeout, data =>
             {
                 var authResponse = Deserialize<HitBTCSocketResponse<bool>>(data, false);
                 if (!authResponse)
                 {
-                    log.Write(LogVerbosity.Warning, "Authorization failed: " + authResponse.Error);
+                    log.Write(LogLevel.Warning, "Authorization failed: " + authResponse.Error);
                     result = new CallResult<bool>(false, authResponse.Error);
                     return true;
                 }
@@ -834,20 +836,20 @@ namespace HitBTC.Net
                 if (authResponse.Data.Error != null)
                 {
                     var error = new ServerError(authResponse.Data.Error.Code, authResponse.Data.Error.Message);
-                    log.Write(LogVerbosity.Debug, "Failed to authenticate: " + error);
+                    log.Write(LogLevel.Debug, "Failed to authenticate: " + error);
                     result = new CallResult<bool>(false, error);
                     return true;
                 }
 
                 if (authResponse.Data.Result != true)
                 {
-                    log.Write(LogVerbosity.Debug, "Failed to authenticate: " + authResponse.Data.Result);
+                    log.Write(LogLevel.Debug, "Failed to authenticate: " + authResponse.Data.Result);
                     result = new CallResult<bool>(false, new ServerError(authResponse.Data.Result.ToString()));
 
                     return true;
                 }
 
-                log.Write(LogVerbosity.Debug, "Authorization completed");
+                log.Write(LogLevel.Debug, "Authorization completed");
 
                 result = new CallResult<bool>(true, null);
 
@@ -867,7 +869,7 @@ namespace HitBTC.Net
         /// <param name="authenticated">If the subscription should be authenticated</param>
         /// <param name="dataHandler">The handler of update data</param>
         /// <returns></returns>
-        protected override async Task<CallResult<UpdateSubscription>> Subscribe<T>(string url, object? request, string? identifier, bool authenticated, Action<T> dataHandler)
+        protected override async Task<CallResult<UpdateSubscription>> SubscribeAsync<T>(string url, object? request, string? identifier, bool authenticated, Action<DataEvent<T>> dataHandler)
         {
             SocketConnection socket;
             SocketSubscription handler;
@@ -875,8 +877,8 @@ namespace HitBTC.Net
             await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
-                socket = GetWebsocket(url, authenticated);
-                handler = AddHandler(request, identifier, true, socket, dataHandler);
+                socket = GetSocketConnection(url, authenticated);
+                handler = AddSubscription(request, identifier, true, socket, dataHandler);
                 if (SocketCombineTarget == 1)
                 {
                     // Can release early when only a single sub per connection
@@ -884,7 +886,7 @@ namespace HitBTC.Net
                     released = true;
                 }
 
-                var connectResult = await ConnectIfNeeded(socket, authenticated).ConfigureAwait(false);
+                var connectResult = await ConnectIfNeededAsync(socket, authenticated).ConfigureAwait(false);
                 if (!connectResult)
                     return new CallResult<UpdateSubscription>(null, connectResult.Error);
             }
@@ -898,13 +900,13 @@ namespace HitBTC.Net
 
             if (socket.PausedActivity)
             {
-                log.Write(LogVerbosity.Info, "Socket has been paused, can't subscribe at this moment");
+                log.Write(LogLevel.Information, "Socket has been paused, can't subscribe at this moment");
                 return new CallResult<UpdateSubscription>(default, new ServerError("Socket is paused"));
             }
 
             if (request != null)
             {
-                var subResult = await SubscribeAndWait(socket, request, handler).ConfigureAwait(false);
+                var subResult = await SubscribeAndWaitAsync(socket, request, handler).ConfigureAwait(false);
                 if (!subResult)
                 {
                     return new CallResult<UpdateSubscription>(null, subResult.Error);
@@ -925,14 +927,14 @@ namespace HitBTC.Net
         /// <param name="address">The address the socket is for</param>
         /// <param name="authenticated">Whether the socket should be authenticated</param>
         /// <returns></returns>
-        protected override SocketConnection GetWebsocket(string address, bool authenticated)
+        protected override SocketConnection GetSocketConnection(string address, bool authenticated)
         {
             var socketResult = sockets.Where(s => s.Value.Socket.Url == address.TrimEnd('/')
-                                                  && (s.Value.Authenticated == authenticated || !authenticated) && s.Value.Connected).OrderBy(s => s.Value.HandlerCount).FirstOrDefault();
+                                                  && (s.Value.Authenticated == authenticated || !authenticated) && s.Value.Connected).OrderBy(s => s.Value.SubscriptionCount).FirstOrDefault();
             var result = socketResult.Equals(default(KeyValuePair<int, SocketConnection>)) ? null : socketResult.Value;
             if (result != null)
             {
-                if (result.HandlerCount < SocketCombineTarget || (sockets.Count >= MaxSocketConnections && sockets.All(s => s.Value.HandlerCount >= SocketCombineTarget)))
+                if (result.SubscriptionCount < SocketCombineTarget || (sockets.Count >= MaxSocketConnections && sockets.All(s => s.Value.SubscriptionCount >= SocketCombineTarget)))
                 {
                     // Use existing socket if it has less than target connections OR it has the least connections and we can't make new
                     return result;
@@ -945,7 +947,7 @@ namespace HitBTC.Net
             foreach (var kvp in genericHandlers)
             {
                 var handler = SocketSubscription.CreateForIdentifier(kvp.Key, false, kvp.Value);
-                socketWrapper.AddHandler(handler);
+                socketWrapper.AddSubscription(handler);
             }
 
             return socketWrapper;

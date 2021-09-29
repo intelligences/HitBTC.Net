@@ -15,13 +15,15 @@
     <PackageProjectUrl></PackageProjectUrl>
     <PackageId>HitBTC_Net</PackageId>
     <PackageIcon>icon.png</PackageIcon>
-    <Version>1.0.6.0</Version>
-    <PackageReleaseNotes>1.0.6 - Update core to latest version.
-	1.0.5 - Fix error response parsing for rest client.</PackageReleaseNotes>
+    <Version>1.0.6.1</Version>
+    <PackageReleaseNotes>
+        1.0.6.1 - Update cryptoexchange core.
+        1.0.6 - Update core to latest version.
+        1.0.5 - Fix error response parsing for rest client.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="4.0.8" />
+    <PackageReference Include="CryptoExchange.Net" Version="4.2.3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 

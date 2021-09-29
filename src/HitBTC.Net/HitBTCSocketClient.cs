@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net;
+using CryptoExchange.Net;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using HitBTC.Net.Enum;
@@ -946,7 +946,7 @@ namespace HitBTC.Net
             var socketWrapper = new SocketConnection(this, socket);
             foreach (var kvp in genericHandlers)
             {
-                var handler = SocketSubscription.CreateForIdentifier(kvp.Key, false, kvp.Value);
+                var handler = SocketSubscription.CreateForIdentifier(NextId(), kvp.Key, false, kvp.Value);
                 socketWrapper.AddSubscription(handler);
             }
 

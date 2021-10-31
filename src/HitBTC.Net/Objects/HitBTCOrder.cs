@@ -1,6 +1,7 @@
 ﻿using HitBTC.Net.Enum;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace HitBTC.Net.Objects
 {
@@ -67,12 +68,25 @@ namespace HitBTC.Net.Objects
         /// </summary>
         [JsonProperty("price")]
         public decimal Price { get; private set; }
+        
+        /// <summary>
+        /// Average execution price, only for history orders
+        /// </summary>
+        [JsonProperty("avgPrice")]
+        public decimal AveragePrice { get; private set; }
 
         /// <summary>
-        /// Order stop price
+        /// Order stop price. Required for stop-limit and stop-market orders.
         /// </summary>
         [JsonProperty("stopPrice")]
-        public decimal StopPrice { get; private set; }
+        public decimal? StopPrice { get; private set; }
+
+        /// <summary>
+        /// A post-only order is an order that does not remove liquidity.
+        /// If your post-only order causes a match with a pre-existing order as a taker, then the order will be cancelled.
+        /// </summary>
+        [JsonProperty("postOnly")]
+        public bool PostOnly { get; private set; }
 
         /// <summary>
         /// Cumulative executed quantity
@@ -96,7 +110,12 @@ namespace HitBTC.Net.Objects
         /// Order expire date. (use for GTD)
         /// </summary>
         [JsonProperty("expireTime")]
-        public DateTime ExpireTime { get; private set; }
-    }
+        public DateTime? ExpireTime { get; private set; }
 
+        /// <summary>
+        /// Optional list of trades
+        /// </summary>
+        [JsonProperty("tradesReport")]
+        public IEnumerable<HitBTCOrderTrade> Trades { get; private set; } = Array.Empty<HitBTCOrderTrade>();
+    }
 }

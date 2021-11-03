@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0; netstandard2.1</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>default</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Sergey Rashin</Authors>
@@ -20,10 +20,15 @@
         1.0.6.1 - Update cryptoexchange core.
         1.0.6 - Update core to latest version.
         1.0.5 - Fix error response parsing for rest client.</PackageReleaseNotes>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>HitBTC.Net.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CryptoExchange.Net" Version="4.2.3" />
+    <PackageReference Include="CryptoExchange.Net" Version="4.2.8" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 

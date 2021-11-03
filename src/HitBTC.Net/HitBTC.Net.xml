@@ -1,0 +1,1933 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HitBTC.Net</name>
+    </assembly>
+    <members>
+        <member name="F:HitBTC.Net.Enum.HitBTCTimeInForce.GTC">
+            <summary>
+            'Good-Till-Cancel' order won't close until it is filled
+            </summary>
+        </member>
+        <member name="F:HitBTC.Net.Enum.HitBTCTimeInForce.IOC">
+            <summary>
+            'Immediate-Or-Cancel' order must be executed immediately. Any part of an IOC order that cannot be filled immediately will be cancelled
+            </summary>
+        </member>
+        <member name="F:HitBTC.Net.Enum.HitBTCTimeInForce.FOK">
+            <summary>
+            'Fill-Or-Kill' is a type of 'Time in Force' designation used in securities trading that instructs a brokerage to execute a transaction immediately and completely or not execute it at all
+            </summary>
+        </member>
+        <member name="F:HitBTC.Net.Enum.HitBTCTimeInForce.Day">
+            <summary>
+            'Day' keeps the order active until the end of the trading day (UTC)
+            </summary>
+        </member>
+        <member name="F:HitBTC.Net.Enum.HitBTCTimeInForce.GTD">
+            <summary>
+            'Good-Till-Date'. The date is specified in expireTime.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.CandlesRequestFilter.Symbols">
+            <summary>
+            Comma-separated list of symbol codes. Optional parameter
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.CandlesRequestFilter.Period">
+            <summary>
+            Candles time frame
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.CandlesRequestFilter.Sort">
+            <summary>
+            Sort direction.
+            </summary>
+            <remarks>Accepted values: DESC, ASC. Default value: DESC</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.CandlesRequestFilter.From">
+            <summary>
+            Interval initial value (optional parameter)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.CandlesRequestFilter.Till">
+            <summary>
+            Interval end value (optional parameter)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.CandlesRequestFilter.Limit">
+            <summary>
+            Records per page
+            </summary>
+            <remarks>Default value: 100; Max value: 1000</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.CandlesRequestFilter.Offset">
+            <summary>
+            Offset records
+            </summary>
+            <remarks>Default value: 0; Max value: 100000</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryOrderRequestFilter.ClientOrderId">
+            <summary>
+            If set, other parameters will be ignored, including limit and offset.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryOrderRequestFilter.Symbol">
+            <summary>
+            Optional parameter to filter orders by symbol.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryOrderRequestFilter.From">
+            <summary>
+            Interval initial value (optional parameter)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryOrderRequestFilter.Till">
+            <summary>
+            Interval end value (optional parameter)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryOrderRequestFilter.Limit">
+            <summary>
+            Records per page
+            </summary>
+            <remarks>Default value: 100; Max value: 1000</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryOrderRequestFilter.Offset">
+            <summary>
+            Offset records
+            </summary>
+            <remarks>Default value: 0; Max value: 100000</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.Symbol">
+            <summary>
+            Optional parameter to filter active orders by symbol
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.Sort">
+            <summary>
+            Sort direction.
+            </summary>
+            <remarks>Accepted values: DESC, ASC. Default value: DESC</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.By">
+            <summary>
+            Defines filter type.
+            </summary>
+            <remarks>Accepted values: timestamp, id. Default value: id</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.From">
+            <summary>
+            Interval initial value (optional parameter)
+            </summary>
+            <remarks>If sorting by timestamp is used, then Datetime, otherwise Number of index value.</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.Till">
+            <summary>
+            Interval end value (optional parameter)
+            </summary>
+            <remarks>If sorting by timestamp is used, then Datetime, otherwise Number of index value.</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.Limit">
+            <summary>
+            Records per page
+            </summary>
+            <remarks>Default value: 100; Max value: 1000</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.Offset">
+            <summary>
+            Offset records
+            </summary>
+            <remarks>Default value: 0; Max value: 100000</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.HistoryTradesRequestFilter.Margin">
+            <summary>
+            Filtering of margin orders
+            </summary>
+            <remarks>Accepted values: include, only, 'ignore' Default value: include</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.OrderBookRequestFilter.Symbols">
+            <summary>
+            Comma-separated list of symbol codes. Optional parameter
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.OrderBookRequestFilter.Limit">
+            <summary>
+            Limit of Order Book levels
+            </summary>
+            <remarks>Default value: 100 Set 0 to view full list of Order Book levels.</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.TradesRequestFilter.Symbols">
+            <summary>
+            Comma-separated list of symbol codes. Optional parameter
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.TradesRequestFilter.Sort">
+            <summary>
+            Sort direction.
+            </summary>
+            <remarks>Accepted values: DESC, ASC. Default value: DESC</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.TradesRequestFilter.From">
+            <summary>
+            Interval initial value (optional parameter)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.TradesRequestFilter.Till">
+            <summary>
+            Interval end value (optional parameter)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Filters.TradesRequestFilter.Limit">
+            <summary>
+            Records per page
+            </summary>
+            <remarks>Default value: 100; Max value: 1000</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Filters.TradesRequestFilter.Offset">
+            <summary>
+            Offset records
+            </summary>
+            <remarks>Default value: 0; Max value: 100000</remarks>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.#ctor">
+            <summary>
+            Creates a new socket client using the default options
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.#ctor(HitBTC.Net.Objects.HitBTCClientOptions)">
+            <summary>
+            Create a new instance of the HitBTCClient with the provided options
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.SetApiCredentials(System.String,System.String)">
+            <summary>
+            Set the API key and secret. Api keys can be managed at https://hitbtc.com/settings/api-keys
+            </summary>
+            <param name="apiKey">The api key</param>
+            <param name="apiSecret">The api secret</param>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCurrencies(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get a list of all currencies
+            </summary>
+            <param name="currencies">Currencies filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of currencies</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCurrenciesAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get a list of all currencies
+            </summary>
+            <param name="currencies">Currencies filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of currencies</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCurrency(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get information about specified currency
+            </summary>
+            <param name="currency">The currency to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Currency info</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCurrencyAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get information about specified currency
+            </summary>
+            <param name="currency">The currency to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Currency info</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetSymbols(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get a list of all symbols
+            </summary>
+            <param name="symbols">Filter symbols</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of symbols</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetSymbolsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get a list of all symbols
+            </summary>
+            <param name="symbols">Filter symbols</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of symbols</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetSymbol(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get information about specified symbol
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Symbol info</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetSymbolAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get information about specified symbol
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Symbol info</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTickers(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get tickers for all symbols
+            </summary>
+            <param name="symbols">Filter symbols</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of tickers</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTickersAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get tickers for all symbols
+            </summary>
+            <param name="symbols">Filter symbols</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of tickers</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTicker(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get ticker for a certain symbol
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Ticker info</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTickerAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get ticker for a certain symbol
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Ticker info</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTrades(HitBTC.Net.Filters.TradesRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get trades for all symbols
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of trades</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTradesAsync(HitBTC.Net.Filters.TradesRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get trades for all symbols
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of trades</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTrades(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get trades for specified symbols
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of trades</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTradesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get trades for specified symbols
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of trades</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrderBooks(HitBTC.Net.Filters.OrderBookRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get Order Books for all symbols
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of Order Books</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrderBooksAsync(HitBTC.Net.Filters.OrderBookRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get Order Books for all symbols
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of Order Books</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrderBook(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get Order Book for specified symbols
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="volume">Desired volume for market depth search</param>
+            <param name="limit">Limit of Order Book levels. Default value: 100. Set 0 to view full list of Order Book levels.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Order Book</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrderBookAsync(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get Order Book for specified symbols
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="volume">Desired volume for market depth search</param>
+            <param name="limit">Limit of Order Book levels. Default value: 100. Set 0 to view full list of Order Book levels.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Order Book</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCandles(HitBTC.Net.Filters.CandlesRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get candles for all symbols
+            </summary>
+            <param name="filter">Candles filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of candles</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCandlesAsync(HitBTC.Net.Filters.CandlesRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get candles for all symbols
+            </summary>
+            <param name="filter">Candles filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of candles</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCandles(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get candles for specified symbols
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of candles</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetCandlesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get candles for specified symbols
+            </summary>
+            <param name="symbol">The symbol to get info for</param>
+            <param name="ct">Cancellation token</param>
+            <returns>List of candles</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTradingBalance(System.Threading.CancellationToken)">
+            <summary>
+            Get trading balance
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns the user's trading balance.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTradingBalanceAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get trading balance
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns the user's trading balance.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrders(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get orders
+            </summary>
+            <param name="symbol">Filter orders by symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return array of active orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrdersAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get orders
+            </summary>
+            <param name="symbol">Filter orders by symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return array of active orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrder(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get order by client order id
+            </summary>
+            <param name="clientOrderId">Client order id</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return active order.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetOrderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get order by client order id
+            </summary>
+            <param name="clientOrderId">Client order id</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return active order.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CreateOrder(System.String,HitBTC.Net.Enum.HitBTCSide,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce,System.DateTime,System.String,System.Boolean,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Create order
+            </summary>
+            <param name="symbol">Trading symbol</param>
+            <param name="side">Trade side</param>
+            <param name="quantity">Order quantity</param>
+            <param name="price">Order price. Required for limit order types</param>
+            <param name="stopPrice">Required for stop-limit and stop-market orders</param>
+            <param name="timeInForce">Accepted values: GTC, IOC, FOK, Day, GTD <see cref="T:HitBTC.Net.Enum.HitBTCTimeInForce"/></param>
+            <param name="expireTime">Required for orders with timeInForce = GTD</param>
+            <param name="clientOrderId">Optional parameter. If it is skipped, it will be generated by the Server.Uniqueness must be guaranteed within a single trading day, including all active orders.</param>
+            <param name="strictValidate">Price and quantity will be checked for incrementation within the symbol’s tick size and quantity step.. See the symbol's tickSize and quantityIncrement.</param>
+            <param name="postOnly">If your post-only order causes a match with a pre-existing order as a taker, then the order will be cancelled.</param>
+            <param name="ct"></param>
+            <returns>Return new order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CreateOrderAsync(System.String,HitBTC.Net.Enum.HitBTCSide,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce,System.DateTime,System.String,System.Boolean,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Create order
+            </summary>
+            <param name="symbol">Trading symbol</param>
+            <param name="side">Trade side</param>
+            <param name="quantity">Order quantity</param>
+            <param name="price">Order price. Required for limit order types</param>
+            <param name="stopPrice">Required for stop-limit and stop-market orders</param>
+            <param name="timeInForce">Accepted values: GTC, IOC, FOK, Day, GTD <see cref="T:HitBTC.Net.Enum.HitBTCTimeInForce"/></param>
+            <param name="expireTime">Required for orders with timeInForce = GTD</param>
+            <param name="clientOrderId">Optional parameter. If it is skipped, it will be generated by the Server.Uniqueness must be guaranteed within a single trading day, including all active orders.</param>
+            <param name="strictValidate">Price and quantity will be checked for incrementation within the symbol’s tick size and quantity step.. See the symbol's tickSize and quantityIncrement.</param>
+            <param name="postOnly">If your post-only order causes a match with a pre-existing order as a taker, then the order will be cancelled.</param>
+            <param name="ct"></param>
+            <returns>Return new order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelOrders(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel orders
+            </summary>
+            <param name="symbol">Optional parameter to filter active orders by symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return active order.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelOrdersAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel orders
+            </summary>
+            <param name="symbol">Optional parameter to filter active orders by symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return active order.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelOrder(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel orders
+            </summary>
+            <param name="clientOrderId">Client order ID</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return active order.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelOrderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel orders
+            </summary>
+            <param name="clientOrderId">Client order ID</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Return active order.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTradingCommission(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get trading comission
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Trading comission.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetTradingCommissionAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get trading comission
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Trading comission.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetIsolatedMarginAccounts(System.Threading.CancellationToken)">
+            <summary>
+            Get Isolated Margin Accounts
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Margin Accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetIsolatedMarginAccountsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get Isolated Margin Accounts
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Margin Accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.RetrieveAllMargin(System.Threading.CancellationToken)">
+            <summary>
+            Retrieve All Margin
+            </summary>
+            <remarks>Closes all positions and then closes all Isolated Margin Accounts. This will completely free up any balance reserved for margin purposes.</remarks>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns list of the closed Isolated Margin Accounts.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.RetrieveAllMarginAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieve All Margin
+            </summary>
+            <remarks>Closes all positions and then closes all Isolated Margin Accounts. This will completely free up any balance reserved for margin purposes.</remarks>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns list of the closed Isolated Margin Accounts.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetIsolatedMarginAccount(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Isolated Margin Account
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns Isolated Margin Account details by symbol.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetIsolatedMarginAccountAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Isolated Margin Account
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns Isolated Margin Account details by symbol.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CreateOrUpdateIsolatedMarginAccount(System.String,System.Decimal,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Create/Update Isolated Margin Account
+            </summary>
+            <remarks>Creates or updates margin account. Setting margin balance to zero will lead to closing margin account and retrieval all formerly reserved funds to the trading account.</remarks>
+            <param name="symbol">Symbol</param>
+            <param name="marginBalance">Amount of currency reserved.</param>
+            <param name="strictValidate">The value indicating whether the marginBalance going to be checked for correct non exponential format and currency precision.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns margin account details.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CreateOrUpdateIsolatedMarginAccountAsync(System.String,System.Decimal,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Create/Update Isolated Margin Account
+            </summary>
+            <remarks>Creates or updates margin account. Setting margin balance to zero will lead to closing margin account and retrieval all formerly reserved funds to the trading account.</remarks>
+            <param name="symbol">Symbol</param>
+            <param name="marginBalance">Amount of currency reserved.</param>
+            <param name="strictValidate">The value indicating whether the marginBalance going to be checked for correct non exponential format and currency precision.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns margin account details.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CloseIsolatedMarginAccount(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Close Isolated Margin Account
+            </summary>
+            <remarks>Closes Isolated Margin Account by symbol. This will completely free up any balance reserved for margin purposes, and all open positions will be closed at market price.</remarks>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns closed Isolated Margin Account details.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CloseIsolatedMarginAccountAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Close Isolated Margin Account
+            </summary>
+            <remarks>Closes Isolated Margin Account by symbol. This will completely free up any balance reserved for margin purposes, and all open positions will be closed at market price.</remarks>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns closed Isolated Margin Account details.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetMarginPositions(System.Threading.CancellationToken)">
+            <summary>
+            Get Margin Positions
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of open positions.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetMarginPositionsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get Margin Positions
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of open positions.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CloseMarginPositions(System.Threading.CancellationToken)">
+            <summary>
+            Close Margin Positions
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of the successfully closed margin positions.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CloseMarginPositionsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Close Margin Positions
+            </summary>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of the successfully closed margin positions.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetMarginPosition(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Margin Position
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns opened position for the requested symbol.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetMarginPositionAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Margin Position
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns opened position for the requested symbol.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CloseMarginPosition(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Close Margin Position
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of the successfully closed margin positions.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CloseMarginPositionAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Close Margin Position
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of the successfully closed margin positions.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetActiveMarginOrders(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Active Margin Orders
+            </summary>
+            <param name="symbol">Parameter to filter active orders by symbol.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns an array of the active margin orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetActiveMarginOrdersAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Active Margin Orders
+            </summary>
+            <param name="symbol">Parameter to filter active orders by symbol.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of the successfully closed margin positions.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetActiveMarginOrder(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Active Margin Order
+            </summary>
+            <param name="clientOrderId">Client order id</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns an active order by clientOrderId.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetActiveMarginOrderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get Active Margin Order
+            </summary>
+            <param name="clientOrderId">Client order id</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns an active order by clientOrderId.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CreateMarginOrder(System.String,HitBTC.Net.Enum.HitBTCSide,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce,System.DateTime,System.String,System.Boolean,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Create margin order
+            </summary>
+            <param name="symbol">Trading symbol</param>
+            <param name="side">Trade side</param>
+            <param name="quantity">Order quantity</param>
+            <param name="price">Order price. Required for limit order types</param>
+            <param name="stopPrice">Required for stop-limit and stop-market orders</param>
+            <param name="timeInForce">Accepted values: GTC, IOC, FOK, Day, GTD <see cref="T:HitBTC.Net.Enum.HitBTCTimeInForce"/></param>
+            <param name="expireTime">Required for orders with timeInForce = GTD</param>
+            <param name="clientOrderId">Optional parameter. If it is skipped, it will be generated by the Server.Uniqueness must be guaranteed within a single trading day, including all active orders.</param>
+            <param name="strictValidate">Price and quantity will be checked for incrementation within the symbol’s tick size and quantity step.. See the symbol's tickSize and quantityIncrement.</param>
+            <param name="postOnly">If your post-only order causes a match with a pre-existing order as a taker, then the order will be cancelled.</param>
+            <param name="ct"></param>
+            <returns>Return new margin order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CreateMarginOrderAsync(System.String,HitBTC.Net.Enum.HitBTCSide,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce,System.DateTime,System.String,System.Boolean,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Create order
+            </summary>
+            <param name="symbol">Trading symbol</param>
+            <param name="side">Trade side</param>
+            <param name="quantity">Order quantity</param>
+            <param name="price">Order price. Required for limit order types</param>
+            <param name="stopPrice">Required for stop-limit and stop-market orders</param>
+            <param name="timeInForce">Accepted values: GTC, IOC, FOK, Day, GTD <see cref="T:HitBTC.Net.Enum.HitBTCTimeInForce"/></param>
+            <param name="expireTime">Required for orders with timeInForce = GTD</param>
+            <param name="clientOrderId">Optional parameter. If it is skipped, it will be generated by the Server.Uniqueness must be guaranteed within a single trading day, including all active orders.</param>
+            <param name="strictValidate">Price and quantity will be checked for incrementation within the symbol’s tick size and quantity step.. See the symbol's tickSize and quantityIncrement.</param>
+            <param name="postOnly">If your post-only order causes a match with a pre-existing order as a taker, then the order will be cancelled.</param>
+            <param name="ct"></param>
+            <returns>Return new order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelMarginOrders(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel Margin Orders
+            </summary>
+            <remarks>Cancels all active margin orders, or all active margin orders for the specified symbol.</remarks>
+            <param name="symbol">Optional parameter. Parameter to filter active margin orders by symbol.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of cancelled margin orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelMarginOrdersAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel Margin Orders
+            </summary>
+            <remarks>Cancels all active margin orders, or all active margin orders for the specified symbol.</remarks>
+            <param name="symbol">Optional parameter. Parameter to filter active margin orders by symbol.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of cancelled margin orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelMarginOrder(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel Margin Order
+            </summary>
+            <param name="clientOrderId">Client order id</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns the successfully cancelled margin order.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.CancelMarginOrderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel Margin Order
+            </summary>
+            <remarks>Cancels all active margin orders, or all active margin orders for the specified symbol.</remarks>
+            <param name="clientOrderId">Optional parameter. If it is skipped, it will be generated by the Server. Uniqueness must be guaranteed within a single trading day, including all active orders.</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns a list of cancelled margin orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetHistoryOrders(HitBTC.Net.Filters.HistoryOrderRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get historycal orders
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns historycal orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetHistoryOrdersAsync(HitBTC.Net.Filters.HistoryOrderRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get historycal orders
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns historycal orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetHistoryTrades(HitBTC.Net.Filters.HistoryTradesRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get historycal trades
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns historycal orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetHistoryTradesAsync(HitBTC.Net.Filters.HistoryTradesRequestFilter,System.Threading.CancellationToken)">
+            <summary>
+            Get historycal orders
+            </summary>
+            <param name="filter">Filter</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns historycal orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetHistoryOrderTrades(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Trades by order
+            </summary>
+            <param name="orderId">Order ID</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns historycal orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetHistoryOrderTradesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Trades by order
+            </summary>
+            <param name="orderId">Order ID</param>
+            <param name="ct">Cancellation token</param>
+            <returns>Returns historycal orders.</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.GetUrl(System.String,System.String)">
+            <summary>
+            Get url for an endpoint
+            </summary>
+            <param name="endpoint"></param>
+            <param name="queryString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCClient.ParseErrorResponse(Newtonsoft.Json.Linq.JToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.#ctor">
+            <summary>
+            Creates a new socket client using the default options
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.#ctor(HitBTC.Net.HitBTCSocketClientOptions)">
+            <summary>
+            Creates a new socket client using the provided options
+            </summary>
+            <param name="options">Options to use for this client</param>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetCurrencies">
+            <summary>
+            Gets the currencies
+            </summary>
+            <returns>Symbol summaries</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetCurrenciesAsync">
+            <summary>
+            Gets the currencies async
+            </summary>
+            <returns>Symbol summaries</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetCurrency(System.String)">
+            <summary>
+            Get the currency
+            </summary>
+            <returns>Symbol</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetCurrencyAsync(System.String)">
+            <summary>
+            Get the currency async
+            </summary>
+            <returns>Symbol</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetSymbols">
+            <summary>
+            Gets the symbols
+            </summary>
+            <returns>Symbol summaries</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetSymbolsAsync">
+            <summary>
+            Gets the symbols async
+            </summary>
+            <returns>Symbol summaries</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetSymbol(System.String)">
+            <summary>
+            Get the symbol
+            </summary>
+            <returns>Symbol</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetSymbolAsync(System.String)">
+            <summary>
+            Get the symbol
+            </summary>
+            <returns>Symbol</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.PlaceOrder(System.String,System.String,HitBTC.Net.Enum.HitBTCSide,HitBTC.Net.Enum.HitBTCOrderType,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce)">
+            <summary>
+            Place new order
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.PlaceOrderAsync(System.String,System.String,HitBTC.Net.Enum.HitBTCSide,HitBTC.Net.Enum.HitBTCOrderType,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce)">
+            <summary>
+            Place new order async
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.RePlaceOrder(System.String,System.String,System.Decimal,System.Decimal)">
+            <summary>
+            Replace order
+            </summary>
+            <returns>Symbol</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.RePlaceOrderAsync(System.String,System.String,System.Decimal,System.Decimal)">
+            <summary>
+            Replace order async
+            </summary>
+            <returns>order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CancelMarginOrder(System.String)">
+            <summary>
+            Cancel margin order
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CancelMarginOrderAsync(System.String)">
+            <summary>
+            Cancel margin order
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetActiveOrders">
+            <summary>
+            Gets the active orders
+            </summary>
+            <returns>Active orders</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetActiveOrdersAsync">
+            <summary>
+            Gets the active orders async
+            </summary>
+            <returns>Active orders</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetTradingBalances">
+            <summary>
+            Gets the active orders
+            </summary>
+            <returns>Active orders</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetTradingBalancesAsync">
+            <summary>
+            Gets the active orders async
+            </summary>
+            <returns>Active orders</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeOrders(System.Action{HitBTC.Net.Objects.HitBTCOrder})">
+            <summary>
+            Subscribe to orders
+            </summary>
+            <param name="action"></param>
+            <returns>Subscription</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeOrdersAsync(System.Action{HitBTC.Net.Objects.HitBTCOrder})">
+            <summary>
+            Subscribe to orders async
+            </summary>
+            <param name="action"></param>
+            <returns>Subscription</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeOrderBook(System.String,System.Action{HitBTC.Net.Objects.HitBTCOrderBook})">
+            <summary>
+            Subscribe to order book
+            </summary>
+            <param name="symbol"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeOrderBookAsync(System.String,System.Action{HitBTC.Net.Objects.HitBTCOrderBook})">
+            <summary>
+            Subscribe to order book async
+            </summary>
+            <param name="symbol"></param>
+            <param name="action"></param>
+            <returns>Subscription</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeCandles(System.String,HitBTC.Net.Enum.HitBTCPeriod,System.Int32,System.Action{HitBTC.Net.Objects.HitBTCCandleData})">
+            <summary>
+            Subscribe to candles
+            </summary>
+            <param name="action"></param>
+            <param name="period"></param>
+            <param name="symbol"></param>
+            <param name="limit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeCandlesAsync(System.String,HitBTC.Net.Enum.HitBTCPeriod,System.Int32,System.Action{HitBTC.Net.Objects.HitBTCCandleData})">
+            <summary>
+            Subscribe to candles async
+            </summary>
+            <param name="action"></param>
+            <param name="period"></param>
+            <param name="symbol"></param>
+            <param name="limit"></param>
+            <returns>Subscription</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeTrades(System.String,System.Int32,System.Action{HitBTC.Net.Objects.HitBTCTradesData})">
+            <summary>
+            Subscribe to trades
+            </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeTradesAsync(System.String,System.Int32,System.Action{HitBTC.Net.Objects.HitBTCTradesData})">
+            <summary>
+            Subscribe to trades async
+            </summary>
+            <param name="symbol"></param>
+            <param name="action"></param>
+            <param name="limit"></param>
+            <returns>Subscription</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeMarginReports(System.Action{HitBTC.Net.Objects.HitBTCOrder},System.Action{HitBTC.Net.Objects.HitBTCMarginAccount})">
+            <summary>
+            Subscribe to margin reports
+            </summary>
+            <param name="ordersAction">Orders callback action</param>
+            <param name="accountsAction">Accounts callback action</param>
+            <returns>Subscription</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeMarginReportsAsync(System.Action{HitBTC.Net.Objects.HitBTCOrder},System.Action{HitBTC.Net.Objects.HitBTCMarginAccount})">
+            <summary>
+            Subscribe to margin reports async
+            </summary>
+            <param name="ordersAction">Orders callback action</param>
+            <param name="accountsAction">Accounts callback action</param>
+            <returns>Subscription</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetMarginAccounts">
+            <summary>
+            Get margin accounts
+            </summary>
+            <returns>margin accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetMarginAccountsAsync">
+            <summary>
+            Get margin accounts async
+            </summary>
+            <returns>margin accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CloseMarginPosition(System.String)">
+            <summary>
+            Close margin position
+            </summary>
+            <returns>margin accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CloseMarginPositionAsync(System.String)">
+            <summary>
+            Close margin position async
+            </summary>
+            <returns>margin accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetMarginOrders">
+            <summary>
+            Get margin orders
+            </summary>
+            <returns>margin orders</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetMarginOrdersAsync">
+            <summary>
+            Get margin orders async
+            </summary>
+            <returns>margin accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CancelMarginOrders">
+            <summary>
+            Cancel all active margin orders.
+            </summary>
+            <returns>margin orders</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CancelMarginOrdersAsync">
+            <summary>
+            Cancel all active margin orders async.
+            </summary>
+            <returns>margin accounts</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.PlaceMarginOrder(System.String,System.String,HitBTC.Net.Enum.HitBTCSide,HitBTC.Net.Enum.HitBTCOrderType,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce)">
+            <summary>
+            Place new margin order
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.PlaceMarginOrderAsync(System.String,System.String,HitBTC.Net.Enum.HitBTCSide,HitBTC.Net.Enum.HitBTCOrderType,System.Decimal,System.Decimal,System.Decimal,HitBTC.Net.Enum.HitBTCTimeInForce)">
+            <summary>
+            Place new margin order async
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.RePlaceMarginOrder(System.String,System.String,System.Decimal,System.Decimal)">
+            <summary>
+            Replace margin order
+            </summary>
+            <returns>Symbol</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.RePlaceMarginOrderAsync(System.String,System.String,System.Decimal,System.Decimal)">
+            <summary>
+            Replace order async
+            </summary>
+            <returns>order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CancelOrder(System.String)">
+            <summary>
+            Cancel order
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.CancelOrderAsync(System.String)">
+            <summary>
+            Cancel order
+            </summary>
+            <returns>Order</returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SetDefaultOptions(HitBTC.Net.HitBTCSocketClientOptions)">
+            <summary>
+            Set the default options for new clients
+            </summary>
+            <param name="options">Options to use for new clients</param>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.SubscribeAsync``1(System.String,System.Object,System.String,System.Boolean,System.Action{CryptoExchange.Net.Sockets.DataEvent{``0}})">
+            <summary>
+            Subscribe using a specif URL
+            </summary>
+            <typeparam name="T">The type of the expected data</typeparam>
+            <param name="url">The URL to connect to</param>
+            <param name="request">The request to send</param>
+            <param name="identifier">The identifier to use</param>
+            <param name="authenticated">If the subscription should be authenticated</param>
+            <param name="dataHandler">The handler of update data</param>
+            <returns></returns>
+        </member>
+        <member name="M:HitBTC.Net.HitBTCSocketClient.GetSocketConnection(System.String,System.Boolean)">
+            <summary>
+            Gets a connection for a new subscription or query. Can be an existing if there are open position or a new one.
+            </summary>
+            <param name="address">The address the socket is for</param>
+            <param name="authenticated">Whether the socket should be authenticated</param>
+            <returns></returns>
+        </member>
+        <member name="M:HitBTC.Net.Interfaces.IHitBTCClient.SetApiCredentials(System.String,System.String)">
+            <summary>
+            Set the API key and secret
+            </summary>
+            <param name="apiKey">The api key</param>
+            <param name="apiSecret">The api secret</param>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCBalance">
+            <summary>
+            Information about a balance
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCBalance.Currency">
+            <summary>
+            Currency name
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCBalance.Available">
+            <summary>
+            Amount available for trading or transfer to main account
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCBalance.Reserved">
+            <summary>
+            Amount reserved for active orders or incomplete transfers to main account
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCCandle">
+            <summary>
+            Candle
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandle.Timestamp">
+            <summary>
+            Candle timestamp
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandle.Open">
+            <summary>
+            Open price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandle.Close">
+            <summary>
+            Close price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandle.Min">
+            <summary>
+            Min price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandle.Max">
+            <summary>
+            Max price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandle.Volume">
+            <summary>
+            Volume in base currency
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandle.VolumeQuote">
+            <summary>
+            Volume in quote currency
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandleData.Candles">
+            <summary>
+            Array of candles
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandleData.Symbol">
+            <summary>
+            Candles symbol name
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCandleData.Period">
+            <summary>
+            Candles period
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.Objects.HitBTCClientOptions.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.Objects.HitBTCClientOptions.#ctor(System.String)">
+            <summary>
+            ctor
+            </summary>
+            <param name="baseAddress">Сustom url to connect via mirror website</param>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCComission">
+            <summary>
+            Information about comission
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCComission.TakeLiquidityRate">
+            <summary>
+            Default fee rate
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCComission.ProvideLiquidityRate">
+            <summary>
+            Default fee rate for market making trades
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCCurrency">
+            <summary>
+            Currency
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.Id">
+            <summary>
+            Currency identifier. In the future, the description will simply use the currency
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.FullName">
+            <summary>
+            Currency full name
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.Crypto">
+            <summary>
+            Is currency belongs to blockchain (false for ICO and fiat, like EUR)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.PayingEnabled">
+            <summary>
+            Is allowed for deposit (false for ICO)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.PayingPaymentId">
+            <summary>
+            Is required to provide additional information other than the address for deposit
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.PayingConfirmations">
+            <summary>
+            Blocks confirmations count for deposit
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.PayoutEnabled">
+            <summary>
+            Is allowed for withdraw (false for ICO)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.PayoutIsPaymentId">
+            <summary>
+            Is allowed to provide additional information for withdraw
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.TransferEnabled">
+            <summary>
+            Is allowed to transfer between trading and account (may be disabled on maintain)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.Delisted">
+            <summary>
+            True if currency delisted (stopped deposit and trading)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCCurrency.PayoutFee">
+            <summary>
+            Default withdraw fee
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCMarginAccount">
+            <summary>
+            HitBTC margin account
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.Symbol">
+            <summary>
+            Symbol
+            </summary>
+            <remarks>Trading symbol. Where base currency is the currency of funds reserved on the trading account for positions and quote currency is the currency of funds reserved on a Isolated Margin Account (e.g. "BTCUSD").</remarks>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.Leverage">
+            <summary>
+            Margin leverage.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.MarginBalance">
+            <summary>
+            Amount of currency, reserved for margin purpose.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.MarginBalanceOrders">
+            <summary>
+            Amount of currency, reserved for margin orders.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.MarginBalanceRequired">
+            <summary>
+            Amount of currency, reserved for margin position close.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.CreatedAt">
+            <summary>
+            Account creation date and time.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.UpdatedAt">
+            <summary>
+            Account last update date and time.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.ReportType">
+            <summary>
+            Amount of currency, reserved for margin orders.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.ReportReason">
+            <summary>
+            Reason of report
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCMarginAccount.Position">
+            <summary>
+            Position
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCOrder">
+            <summary>
+            Order
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.Id">
+            <summary>
+            Unique identifier for Order as assigned by exchange
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.ClientOrderId">
+            <summary>
+            Unique identifier for Order as assigned by trader. Uniqueness must be guaranteed within a single trading day, including all active orders.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.Symbol">
+            <summary>
+            Trading symbol
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.Side">
+            <summary>
+            Order side (sell buy)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.Status">
+            <summary>
+            Order status (new, suspended, partiallyFilled, filled, canceled, expired)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.OrderType">
+            <summary>
+            Order type (limit, market, stopLimit, stopMarket)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.TimeInForce">
+            <summary>
+            Time in force is a special instruction used when placing a trade to indicate how long an order will remain active before it is executed or expires 
+            GTC - Good till cancel.GTC order won't close until it is filled. 
+            IOC - An immediate or cancel order is an order to buy or sell that must be executed immediately, and any portion of the order that cannot be immediately filled is cancelled.
+            FOK - Fill or kill is a type of time-in-force designation used in securities trading that instructs a brokerage to execute a transaction immediately and completely or not at all.
+            Day - keeps the order active until the end of the trading day in UTC.
+            GTD - Good till date specified in expireTime.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.Quantity">
+            <summary>
+            Order quantity
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.Price">
+            <summary>
+            Order price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.AveragePrice">
+            <summary>
+            Average execution price, only for history orders
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.StopPrice">
+            <summary>
+            Order stop price. Required for stop-limit and stop-market orders.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.PostOnly">
+            <summary>
+            A post-only order is an order that does not remove liquidity.
+            If your post-only order causes a match with a pre-existing order as a taker, then the order will be cancelled.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.CumulativeQuantity">
+            <summary>
+            Cumulative executed quantity
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.CreatedAt">
+            <summary>
+            Date and time when order was created
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.UpdatedAt">
+            <summary>
+            Last updated order date and time
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.ExpireTime">
+            <summary>
+            Order expire date. (use for GTD)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrder.Trades">
+            <summary>
+            Optional list of trades
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCOrderBook">
+            <summary>
+            Order book
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderBook.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderBook.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderBook.Bid">
+            <summary>
+            List of bids
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderBook.Ask">
+            <summary>
+            List of asks
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderBookEntry.Price">
+            <summary>
+            Level price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderBookEntry.Size">
+            <summary>
+            Level size
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderTrade.Id">
+            <summary>
+            Trade id
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderTrade.PositionId">
+            <summary>
+            Trade position id
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderTrade.Fee">
+            <summary>
+            Trade commission.
+            Can be negative ('rebate' - reward paid to a trader). See fee currency in the symbol config.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderTrade.Price">
+            <summary>
+            Trade price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderTrade.Quantity">
+            <summary>
+            Trade quantity
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderTrade.Taker">
+            <summary>
+            Liquidity indicator
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCOrderTrade.Timestamp">
+            <summary>
+            Trade timestamp
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCPosition">
+            <summary>
+            HitBTC Position
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.Id">
+            <summary>
+            Position identifier.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.Symbol">
+            <summary>
+            Trading symbol.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.Quantity">
+            <summary>
+            Position quantity.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.Pnl">
+            <summary>
+            Unrealized profit and loss valued in currency.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.PriceEntry">
+            <summary>
+            The price of the first transaction that opened a position.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.PriceMarginCall">
+            <summary>
+            The market price of the margin call.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.PriceLiquidation">
+            <summary>
+            The market price of force close.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.CreatedAt">
+            <summary>
+            Position creation date and time.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCPosition.UpdatedAt">
+            <summary>
+            Position last update date and time.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCReport.ReportType">
+            <summary>
+            Describes what kind of report it is
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCReport.TradeId">
+            <summary>
+            Required for reportType = trade. Trade Id.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCReport.TradeQuantity">
+            <summary>
+            Required for reportType = trade. Quantity of trade.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCReport.TradePrice">
+            <summary>
+            Required for reportType = trade. Trade price.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCReport.TradeFee">
+            <summary>
+            Required for reportType = trade. Fee paid for trade.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCReport.OriginalRequestClientOrderId">
+            <summary>
+            Identifier of replaced order.
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCSymbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.Id">
+            <summary>
+            Symbol identifier. In the future, the description will simply use the symbol
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.BaseCurrency">
+            <summary>
+            Base currency name
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.QuoteCurrency">
+            <summary>
+            Quoting currency name
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.QuantityIncrement">
+            <summary>
+            Quantity increment
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.TickSize">
+            <summary>
+            Tick size (minimum price change)
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.TakeLiquidityRate">
+            <summary>
+            Take liquidity rate
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.ProvideLiquidityRate">
+            <summary>
+            Provide liquiity rate
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCSymbol.FeeCurrency">
+            <summary>
+            Fee currency name
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Objects.HitBTCTicker">
+            <summary>
+            Ticker
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Ask">
+            <summary>
+            Best ask price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Bid">
+            <summary>
+            Best bid price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Last">
+            <summary>
+            Last trade price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Open">
+            <summary>
+            Last trade price 24 hours ago
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Low">
+            <summary>
+            Lowest trade price within 24 hours
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.High">
+            <summary>
+            Highest trade price within 24 hours
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Volume">
+            <summary>
+            Total trading amount within 24 hours in base currency
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.VolumeQuote">
+            <summary>
+            Total trading amount within 24 hours in quote currency
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Timestamp">
+            <summary>
+            Last update or refresh ticker timestamp
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTicker.Symbol">
+            <summary>
+            Symbol nam
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Id">
+            <summary>
+            Trade id
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.OrderId">
+            <summary>
+            Unique identifier for Order as assigned by exchange
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.ClientOrderId">
+            <summary>
+            Unique identifier for Order as assigned by trader
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Symbol">
+            <summary>
+            Trading symbol
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Price">
+            <summary>
+            Trade price
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Quantity">
+            <summary>
+            Trade quantity
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Fee">
+            <summary>
+            Trade commission.
+            Can be negative ('rebate' - reward paid to a trader). See fee currency in the symbol config.
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Side">
+            <summary>
+            Trade side sell or buy
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Timestamp">
+            <summary>
+            Trade timestamp
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Taker">
+            <summary>
+            Liquidity indicator
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTrade.Liquidation">
+            <summary>
+            Optional parameter. Liquidation trade flag for margin trades
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTradesData.Trades">
+            <summary>
+            Array of trades
+            </summary>
+        </member>
+        <member name="P:HitBTC.Net.Objects.HitBTCTradesData.Symbol">
+            <summary>
+            Trades symbol name
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.CloseMarginPositionRequest">
+            <summary>
+            Close margin position request
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.Requests.CloseMarginPositionRequest.#ctor(System.Int32,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="id"></param>
+            <param name="symbol"></param>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetActiveOrders">
+            <summary>
+            Get active orders request
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetCurrenciesRequest">
+            <summary>
+            Get all currencies from server
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetCurrencyRequest">
+            <summary>
+            Get currency
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetMarginAccountsRequest">
+            <summary>
+            Get symbol
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetMarginOrdersRequest">
+            <summary>
+            Get margin orders request
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetSymbolRequest">
+            <summary>
+            Get symbol
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetSymbolsRequest">
+            <summary>
+            Get all symbols from server
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.GetTradingBalanceRequest">
+            <summary>
+            Get balances request
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.HitBTCSocketRequest">
+            <summary>
+            HitBTC socket request
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.Requests.HitBTCSocketRequest.#ctor(System.Int32,System.String)">
+            <summary>
+            Ctor.
+            </summary>
+            <param name="id"></param>
+            <param name="action"></param>
+        </member>
+        <member name="M:HitBTC.Net.Requests.HitBTCSocketRequest.AddParameter(System.String,System.Object)">
+            <summary>
+            Add parameter to request
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:HitBTC.Net.Requests.PlaceMarginOrderRequest">
+            <summary>
+            Place new margin order
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.PlaceOrderRequest">
+            <summary>
+            Place new order
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.RePlaceMarginOrderRequest">
+            <summary>
+            RePlace(modify) margin order request
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.RePlaceOrderRequest">
+            <summary>
+            Replace(modify) order request
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.SubscribeCandlesRequest">
+            <summary>
+            Subscribe to trades
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.SubscribeMarginReportsRequest">
+            <summary>
+            Subscribe to margin reports (Orders and Account)
+            </summary>
+            <remarks>Income methods: `marginOrders`, `marginAccounts`</remarks>
+        </member>
+        <member name="T:HitBTC.Net.Requests.SubscribeOrderBookRequest">
+            <summary>
+            Subscribe to order book updates
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.Requests.SubscribeOrderBookRequest.GetSymbol">
+            <summary>
+            Get subscribed symbol
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HitBTC.Net.Requests.SubscribeOrdersRequest">
+            <summary>
+            Subscribe to order reports
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.SubscribeTradesRequest">
+            <summary>
+            Subscribe to trades
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.UnSubscribeCandlesRequest">
+            <summary>
+            UnSubscribe candles
+            </summary>
+        </member>
+        <member name="T:HitBTC.Net.Requests.UnSubscribeOrderBookRequest">
+            <summary>
+            UnSubscribe from order book updates
+            </summary>
+        </member>
+        <member name="M:HitBTC.Net.Requests.UnSubscribeOrderBookRequest.GetSymbol">
+            <summary>
+            Get subscribed symbol
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HitBTC.Net.Requests.UnSubscribeTradesRequest">
+            <summary>
+            UnSubscribe to trades
+            </summary>
+        </member>
+    </members>
+</doc>

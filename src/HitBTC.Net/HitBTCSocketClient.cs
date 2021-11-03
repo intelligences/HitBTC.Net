@@ -17,7 +17,7 @@ namespace HitBTC.Net
 {
     public class HitBTCSocketClient : SocketClient, IHitBTCSocketClient
     {
-        private static HitBTCSocketClientOptions defaultOptions = new HitBTCSocketClientOptions();
+        private static HitBTCSocketClientOptions defaultOptions = new();
         private static HitBTCSocketClientOptions DefaultOptions => defaultOptions.Copy<HitBTCSocketClientOptions>();
 
         #region ctor
@@ -300,6 +300,7 @@ namespace HitBTC.Net
         /// <summary>
         /// Subscribe to order book
         /// </summary>
+        /// <param name="symbol"></param>
         /// <param name="action"></param>
         /// <returns></returns>
         public CallResult<UpdateSubscription> SubscribeOrderBook(string symbol, Action<HitBTCOrderBook> action) => SubscribeOrderBookAsync(symbol, action).Result;
@@ -326,14 +327,19 @@ namespace HitBTC.Net
         /// Subscribe to candles
         /// </summary>
         /// <param name="action"></param>
+        /// <param name="period"></param>
+        /// <param name="symbol"></param>
+        /// <param name="limit"></param>
         /// <returns></returns>
         public CallResult<UpdateSubscription> SubscribeCandles(string symbol, HitBTCPeriod period, int limit, Action<HitBTCCandleData> action) => SubscribeCandlesAsync(symbol, period, limit, action).Result;
 
         /// <summary>
         /// Subscribe to candles async
         /// </summary>
-        /// <param name="symbol"></param>
         /// <param name="action"></param>
+        /// <param name="period"></param>
+        /// <param name="symbol"></param>
+        /// <param name="limit"></param>
         /// <returns>Subscription</returns>
         public async Task<CallResult<UpdateSubscription>> SubscribeCandlesAsync(string symbol, HitBTCPeriod period, int limit, Action<HitBTCCandleData> action)
         {
@@ -359,6 +365,7 @@ namespace HitBTC.Net
         /// </summary>
         /// <param name="symbol"></param>
         /// <param name="action"></param>
+        /// <param name="limit"></param>
         /// <returns>Subscription</returns>
         public async Task<CallResult<UpdateSubscription>> SubscribeTradesAsync(string symbol, int limit, Action<HitBTCTradesData> action)
         {
@@ -376,7 +383,7 @@ namespace HitBTC.Net
         /// Subscribe to margin reports
         /// </summary>
         /// <param name="ordersAction">Orders callback action</param>
-        /// <param name="ordersAction">Accounts callback action</param>
+        /// <param name="accountsAction">Accounts callback action</param>
         /// <returns>Subscription</returns>
         public CallResult<UpdateSubscription> SubscribeMarginReports(Action<HitBTCOrder> ordersAction, Action<HitBTCMarginAccount> accountsAction) => SubscribeMarginReportsAsync(ordersAction, accountsAction).Result;
 
@@ -384,7 +391,7 @@ namespace HitBTC.Net
         /// Subscribe to margin reports async
         /// </summary>
         /// <param name="ordersAction">Orders callback action</param>
-        /// <param name="ordersAction">Accounts callback action</param>
+        /// <param name="accountsAction">Accounts callback action</param>
         /// <returns>Subscription</returns>
         public async Task<CallResult<UpdateSubscription>> SubscribeMarginReportsAsync(Action<HitBTCOrder> ordersAction, Action<HitBTCMarginAccount> accountsAction)
         {

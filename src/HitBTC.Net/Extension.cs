@@ -21,7 +21,7 @@ namespace HitBTC.Net
                 return value.ToString();
         }
 
-        internal static Dictionary<string, object>? ToParametersDictionary(this object obj)
+        internal static Dictionary<string, object>? ToParametersDictionary(this object? obj)
         {
             if (obj is null)
             {
@@ -30,7 +30,7 @@ namespace HitBTC.Net
 
             Dictionary<string, object> parameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(obj));
 
-            if (parameters is null || parameters.Count == 0)
+            if (parameters.Count == 0)
             {
                 return null;
             }
@@ -38,14 +38,14 @@ namespace HitBTC.Net
             return parameters.Where(p => p.Value != null).ToDictionary(p => p.Key, p => p.Value);
         }
 
-        internal static string? ToQueryString(this Dictionary<string, object> dict)
+        internal static string? ToQueryString(this Dictionary<string, object>? dict)
         {
             if (dict is null)
             {
                 return null;
             }
 
-            return string.Join("&", dict.Select(kvp => string.Format("{0}={1}", kvp.Key, HttpUtility.UrlEncode(kvp.Value.ToString()))));
+            return string.Join("&", dict.Select(kvp => $"{kvp.Key}={HttpUtility.UrlEncode(kvp.Value.ToString())}"));
         }
     }
 
